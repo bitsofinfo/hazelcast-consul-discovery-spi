@@ -38,10 +38,17 @@ This is beta code.
 
 ## <a id="usage"></a> Build & Usage
 
-1. Have Consul running and available somewhere on your network
+1. Have Consul running and available somewhere on your network, start it such as:
+```
+consul agent -server -bootstrap-expect 1 -data-dir /tmp/consul -config-dir /path/to/consul.d/ -ui-dir /path/to/consul-web-ui
+```
 2. From the root of the project run: `./gradlew assemble`
+
 3. Include the built jar artifact located at `build/libs/hazelcast-consul-discovery-spi-1.0.0.jar` in your hazelcast project
+
 4. Configure your hazelcast.xml configuration file to use the `ConsulDiscoveryStrategy` (similar to the below): [See hazelcast-consul-discovery-spi-example.xml](src/main/resources/hazelcast-consul-discovery-spi-example.xml) for a full example with documentation of options.
+
+5. Launch your hazelcast instances, configured with the Consul discovery-strategy similar to the below: [see ManualRunner.java](src/test/java/org/bitsofinfo/hazelcast/discovery/consul/ManualRunner.java) example.
 
 ```
 <network>
