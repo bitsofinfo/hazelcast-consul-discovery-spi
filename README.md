@@ -8,6 +8,7 @@ This is an easy to configure plug-and-play Hazlecast DiscoveryStrategy that will
 * [Features](#features)
 * [Build/Usage](#usage)
 * [Related Info](#related)
+* [Todo](#todo)
 * [Notes](#notes)
 
 
@@ -93,6 +94,12 @@ Showing [LocalDiscoveryNodeRegistrator](src/main/java/org/bitsofinfo/hazelcast/d
 
 * https://www.consul.io
 * http://docs.hazelcast.org/docs/3.6-EA/manual/html-single/index.html#discovery-spi
+
+## <a id="todo"></a> Todo
+
+* Unit-tests
+* Ensure all configuration tweakable via `-D` system properties
+* Add support to force registered IP and PORT (for certain containerized scenarios)
 
 ## <a id="notes"></a> Notes
 
