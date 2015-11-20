@@ -6,7 +6,7 @@ This is an easy to configure plug-and-play Hazlecast DiscoveryStrategy that will
 * [Status](#status)
 * [Requirements](#requirements)
 * [Features](#features)
-* [Usage](#usage)
+* [Build/Usage](#usage)
 * [Related Info](#related)
 * [Notes](#notes)
 
@@ -36,7 +36,7 @@ This is beta code.
     * Configurable discovery delay
     * Automatic Consul de-registration of instance via ShutdownHook
 
-## <a id="usage"></a> Usage
+## <a id="usage"></a> Build & Usage
 
 1. Have Consul running and available somewhere on your network
 2. From the root of the project run: `./gradlew assemble`
