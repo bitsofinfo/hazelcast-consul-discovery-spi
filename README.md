@@ -103,6 +103,15 @@ Showing [LocalDiscoveryNodeRegistrator](src/main/java/org/bitsofinfo/hazelcast/d
 
 ## <a id="notes"></a> Notes
 
+
+## Prior hazelcast versions
+For versions of Hazelcast **prior to 3.6** you may want to look at these projects which seem to provide older implementations of Consul based discovery:
+
+* https://github.com/decoomanj/hazelcast-consul
+* https://github.com/decoomanj/hazelcast-consul-spi
+
+## Consul health-check notes
+
 You should see this in your Consul agent monitor when the health-check scripts are running:
 ```
 > consul monitor --log-level trace
