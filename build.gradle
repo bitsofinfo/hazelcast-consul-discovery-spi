@@ -1,0 +1,24 @@
+
+apply plugin: 'java'
+
+group = 'org.bitsofinfo'
+version = '1.0.0'
+
+description = """hazelcast-consul-discovery-spi"""
+
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+
+repositories {
+   jcenter()
+}
+
+dependencies {
+
+    compile group: 'com.hazelcast', name: 'hazelcast', version:'3.6-EA'
+    compile group: 'com.orbitz.consul', name: 'consul-client', version:'0.9.12'
+    
+    compile 'org.apache.cxf:cxf-rt-rs-client:3.0.3'
+    compile 'org.apache.cxf:cxf-rt-transports-http-hc:3.0.3'
+    
+}

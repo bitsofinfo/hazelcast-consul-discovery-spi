@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hazelcast id="hazelcast-consul-discovery" 
+		   xsi:schemaLocation="http://www.hazelcast.com/schema/config hazelcast-config-3.6.xsd"
+           xmlns="http://www.hazelcast.com/schema/config"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <group>
+        <name>hazelcast-consul-discovery-spi</name>
+        <password>haz3lcast1</password>
+    </group>
+    
+    <properties>
+    	<property name="hazelcast.discovery.enabled">true</property>
+    	<property name="hazelcast.shutdownhook.enabled">false</property> 
+    </properties>
+ 
+    <network>
+        <port auto-increment="true">5701</port>
+        
+        <join>
+            <multicast enabled="false"/>
+      		<aws enabled="false"/>
+      		<tcp-ip enabled="false" />
+      		
+      		<!-- Enable a Consul based discovery strategy -->
+		     <discovery-strategies>
+		
+		       <discovery-strategy enabled="true"
+		           class="org.bitsofinfo.hazelcast.discovery.consul.ConsulDiscoveryStrategy">
+		
+		         <properties>
+		         	  <!--  hostname or IP of the consul server -->
+		              <property name="consul-host">localhost</property>
+		              
+		              <!--  port of the consul server -->
+    			      <property name="consul-port">8500</property>
+
+    			      <!-- 
+    			      		Name of the Consul service that will be used to discover peer hazelcast services in Consul
+    			      		
+    			      		IF a ConsulRegistrator is configured below: this node will be registered under this same service
+    			      		name. This name should be UNIQUE to your hazelcast cluster! (i.e. like your group name above..)
+    			       -->
+    			      <property name="consul-service-name">hz-discovery-test-cluster</property>
+    			      
+    			      <!-- 
+    			      	  When discovering peer nodes, only return those that are healthy (true)
+    			      	  If false, all nodes, regardless of health (from Consul's perspective) will be returned
+    			      	  
+    			      	  This DOES NOT apply to the first call to discoverNodes() but only subsequent calls (if any)
+    			      	  to account for any Consul service health-check you have, who's interval might be longer than
+    			      	  the period of time which the service is registered and the first health check runs.
+    			       -->
+    			      <property name="consul-healthy-only">true</property>
+    			      
+    			      <!-- 
+    			           Comma separated list of Consul service tags that will be used when trying to find peer hazelcast
+    			    	   services in Consul who are part of the same cluster and will be discovered and treated as peer
+    			    	   members of the hazelcast cluster. 
+    			    	   
+    			    	   NOTE: IF you define an ConsulRegistrator below OTHER THAN 'DoNothingRegistrator'.....
+    			    	   
+    			    	   		 IMPORTANT: The ConsulRegistrator below will use these tags when registering this node. At least 
+    			    	   		 ONE of these tags should be unique/shared across all nodes in a unique hazelcast cluster, 
+    			    	   		 i.e. make one of the tags = to the hazelcast group name to prevent nodes
+	    			             from cross-discovering each other across separate clusters that use the same Consul cluster 
+	    			  -->
+    			      <property name="consul-service-tags">hazelcast,test1</property>
+    			      
+    			          			      
+    			      <!--  
+    			      		If you quickly start an entire hz cluster at the exact same time, and
+    			      		all hazelcast services are registered with Consul at the same time, its 
+    			      		possible they may all discover ONLY themselves as members, leading to a cluster
+    			      		that can never be fully discovered. This small delay can assist with avoiding 
+    			      		that problem. @see https://github.com/hazelcast/hazelcast/issues/6813 
+    			       -->
+    			      <property name="consul-discovery-delay-ms">10000</property>
+    			      
+    			      
+    			      <!-- 
+    			      	  ConsulRegistrator: 
+    			      	  
+    			      	  This (optionally) enables the DiscoveryStrategy to register this hazelcast instance as a service with Consul 
+    			      	  directly and deregister it on shutdown.
+    			      	  
+    			      	  LocalDiscoveryNodeRegistrator: Uses the private/public IP:PORT determined by this Hazelcast instance
+    			      	  								 (and tags above) as the identifiers for registering itself with Consul
+    			      	  								 as a unique service.
+    			      	  								 
+    			      	  DoNothingRegistrator: Does NOTHING in regards to registration or deregistration of this node as a service
+    			      	                        with Consul. This should be used if you are running a local Consul agent yourself and 
+    			      	                        managing the registration of this Hazelcast node manually via standard Consul configs
+    			      	                        on the agent. 
+    			      	  
+    			       -->
+    			      <property name="consul-registrator">org.bitsofinfo.hazelcast.discovery.consul.LocalDiscoveryNodeRegistrator</property>
+    			      
+    			      <!-- Custom properties for the ConsulRegistrator class you are using, JSON. @see ConsulRegistrator implementation
+    			           class for details on the configuration unique to it. 
+    			           
+    			           The configuration below is for LocalDiscoveryNodeRegistrator:
+    			           
+    			           		 - preferPublicAddress (true|false) : use the public IP determined by
+    			           		 								      hazelcast (if not null) over the private IP
+    			           		 								      
+    			           		 - healthCheckScript: can be anything you want Consul to do to determine health. 
+    			           		                      Variables #MYIP/#MYPORT will be replaced with this node's IP/PORT
+    			           		                      @see https://www.consul.io/docs/agent/checks.html
+    			           		                      
+    			           		 - healthCheckScriptIntervalSeconds: self explanatory
+    			     -->
+    			      <property name="consul-registrator-config"><![CDATA[
+    			      												{
+    			      												  "preferPublicAddress":false, 
+    			      												  "healthCheckScript":"exec 6<>/dev/tcp/#MYIP/#MYPORT || (exit 3)",
+    			      												  "healthCheckScriptIntervalSeconds":30
+    			      												}
+    			      										    ]]></property>
+		         </properties>
+		       </discovery-strategy>
+		     </discovery-strategies>
+      		
+        </join>
+    </network>
+
+
+</hazelcast>
