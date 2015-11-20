@@ -25,7 +25,7 @@ This is beta code.
 
 * Permits discovery of peers **without** a local Consul agent (self registration)
 
-* Permits discovery of peers with an existing Consul agent setup
+* Permits discovery of peers **with** an existing Consul agent setup
 
 * If you don't want to use the built in Consul registration, just specify the `DoNothingRegistrator` (see below) in your hazelcast discovery-strategy XML config. This will require you to run your own Consul agent that defines the hazelcast service.
 
