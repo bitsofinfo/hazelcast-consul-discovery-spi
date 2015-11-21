@@ -1,7 +1,7 @@
 # hazelcast-consul-discovery-spi
 
 Provides a Consul based discovery strategy for Hazlecast 3.6-EA+ enabled applications.
-This is an easy to configure plug-and-play Hazlecast DiscoveryStrategy that will optionally register each of your Hazelcast instances with Consul and enable Hazelcast nodes to dynamically discover one another.
+This is an easy to configure plug-and-play Hazlecast DiscoveryStrategy that will optionally register each of your Hazelcast instances with Consul and enable Hazelcast nodes to dynamically discover one another via Consul.
 
 * [Status](#status)
 * [Requirements](#requirements)
