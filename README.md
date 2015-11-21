@@ -40,17 +40,17 @@ This is beta code.
 
 ## <a id="usage"></a> Build & Usage
 
-2. Have Consul running and available somewhere on your network, start it such as:
+* Have Consul running and available somewhere on your network, start it such as:
 ```
 consul agent -server -bootstrap-expect 1 -data-dir /tmp/consul -config-dir /path/to/consul.d/ -ui-dir /path/to/consul-web-ui
 ```
-3. From the root of this project, build a Jar : `./gradlew assemble`
+* From the root of this project, build a Jar : `./gradlew assemble`
 
-4. Include the built jar artifact located at `build/libs/hazelcast-consul-discovery-spi-1.0.0.jar` in your hazelcast project
+* Include the built jar artifact located at `build/libs/hazelcast-consul-discovery-spi-1.0.0.jar` in your hazelcast project
 
-5. Configure your hazelcast.xml configuration file to use the `ConsulDiscoveryStrategy` (similar to the below): [See hazelcast-consul-discovery-spi-example.xml](src/main/resources/hazelcast-consul-discovery-spi-example.xml) for a full example with documentation of options.
+* Configure your hazelcast.xml configuration file to use the `ConsulDiscoveryStrategy` (similar to the below): [See hazelcast-consul-discovery-spi-example.xml](src/main/resources/hazelcast-consul-discovery-spi-example.xml) for a full example with documentation of options.
 
-6. Launch your hazelcast instances, configured with the Consul discovery-strategy similar to the below: [see ManualRunner.java](src/test/java/org/bitsofinfo/hazelcast/discovery/consul/ManualRunner.java) example.
+* Launch your hazelcast instances, configured with the Consul discovery-strategy similar to the below: [see ManualRunner.java](src/test/java/org/bitsofinfo/hazelcast/discovery/consul/ManualRunner.java) example.
 
 ```
 <network>
@@ -85,19 +85,21 @@ consul agent -server -bootstrap-expect 1 -data-dir /tmp/consul -config-dir /path
 </network>
 ```
 
-7. Once nodes are joined you can query Consul to see the auto-registration of hazelcast instances works, the service-id's generated etc
+* Once nodes are joined you can query Consul to see the auto-registration of hazelcast instances works, the service-id's generated etc
+
+`curl http://localhost:8500/v1/catalog/services`
 
 ```
-curl http://localhost:8500/v1/catalog/services
-
 {
   "consul":[],
   "hz-discovery-test-cluster":["hazelcast","test1"],
   "web":["rails"]
 }
+```
 
-curl http://localhost:8500/v1/catalog/service/hz-discovery-test-cluster
+`curl http://localhost:8500/v1/catalog/service/hz-discovery-test-cluster`
 
+```
 [
   {
     "Node":"myhost1",
