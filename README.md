@@ -24,9 +24,10 @@ This is beta code.
 
 ## <a id="features"></a> Features
 
-* Permits discovery of peers **and registration** of a hazelcast instance **without** a local Consul agent (self registration)
 
-* Permits discovery of hazelcast peers only **with** an existing Consul agent setup (no registration by the strategy itself)
+* Supports two modes of operation:
+	* **Read-write**: peer discovery and registration of a hazelcast instance without a local Consul agent (self registration)
+	* **Read-only**: peer discovery only with an existing Consul agent setup (no registration by the strategy itself)
 
 * If you don't want to use the built in Consul registration, just specify the `DoNothingRegistrator` (see below) in your hazelcast discovery-strategy XML config. This will require you to run your own Consul agent that defines the hazelcast service.
 
