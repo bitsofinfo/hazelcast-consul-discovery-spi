@@ -21,4 +21,6 @@ dependencies {
     compile 'org.apache.cxf:cxf-rt-rs-client:3.0.3'
     compile 'org.apache.cxf:cxf-rt-transports-http-hc:3.0.3'
     
+    testCompile 'junit:junit:4.12'
+    
 }
