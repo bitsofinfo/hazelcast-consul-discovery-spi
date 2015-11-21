@@ -2,6 +2,8 @@ package org.bitsofinfo.hazelcast.discovery.consul;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -11,6 +13,7 @@ import com.hazelcast.config.ClasspathXmlConfig;
 import com.hazelcast.config.Config;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
+import com.hazelcast.core.IMap;
 import com.hazelcast.nio.Address;
 import com.orbitz.consul.CatalogClient;
 import com.orbitz.consul.Consul;
@@ -40,6 +43,10 @@ public class TestHazelcastConsulDiscoverSPI {
 	public void testLocalDiscoveryNodeRegistrator() {
 		
 		try {
+			
+			IMap<Object,Object> testMap1 = null;
+			IMap<Object,Object> testMap2 = null;
+			
 			int totalInstancesToTest = 5;
 			List<HazelcastInstanceMgr> instances = new ArrayList<HazelcastInstanceMgr>();
 			
@@ -60,6 +67,14 @@ public class TestHazelcastConsulDiscoverSPI {
 				instances.add(mgr);
 				mgr.start();
 				
+				// create testMap1 in first instance and populate it w/ 10 entries
+				if (i == 0) {
+					testMap1 = mgr.getInstance().getMap("testMap1");
+					for(int j=0; j<10; j++) {
+						testMap1.put(j, j);
+					}
+				}
+				
 			}
 			
 			Thread.currentThread().sleep(20000);
@@ -72,8 +87,27 @@ public class TestHazelcastConsulDiscoverSPI {
 			ConsulResponse<List<ServiceHealth>> response2 = consulHealthClient.getHealthyServiceInstances("test-LocalDiscoveryNodeRegistrator");
 			Assert.assertEquals(totalInstancesToTest,response2.getResponse().size());
 			
+			// get the map via each instance and 
+			// validate it ensuring they are all talking to one another
+			for (HazelcastInstanceMgr mgr : instances) {
+				Assert.assertEquals(10, mgr.getInstance().getMap("testMap1").size());
+			}
+			
+			// pick random instance add new map, verify its everywhere
+			Random rand = new Random();
+			testMap2 = instances.get(rand.nextInt(instances.size()-1)).getInstance().getMap("testMap2");
+			for(int j=0; j<10; j++) {
+				testMap2.put(j, j);
+			}
+			
+			for (HazelcastInstanceMgr mgr : instances) {
+				Assert.assertEquals(10, mgr.getInstance().getMap("testMap2").size());
+			}
+		
+			
 			// shutdown one node
-			instances.iterator().next().shutdown();
+			HazelcastInstanceMgr deadInstance = instances.iterator().next();
+			deadInstance.shutdown();
 			
 			// let consul healthcheck fail
 			Thread.currentThread().sleep(45000);
@@ -82,6 +116,15 @@ public class TestHazelcastConsulDiscoverSPI {
 			response2 = consulHealthClient.getHealthyServiceInstances("test-LocalDiscoveryNodeRegistrator");
 			Assert.assertEquals((totalInstancesToTest-1),response2.getResponse().size());
 			
+			// pick a random instance, add some entries in map, verify
+			instances.get(rand.nextInt(instances.size()-1)).getInstance().getMap("testMap2").put("extra1", "extra1");
+			
+			// should be 11 now
+			for (HazelcastInstanceMgr mgr : instances) {
+				if (mgr != deadInstance) {
+					Assert.assertEquals((10+1), mgr.getInstance().getMap("testMap2").size());
+				}
+			}
 			
 			// shutdown everything
 			for (HazelcastInstanceMgr instance : instances) {
@@ -103,6 +146,10 @@ public class TestHazelcastConsulDiscoverSPI {
 		
 		public HazelcastInstanceMgr(String hazelcastConfigFile) {
 			this.conf =new ClasspathXmlConfig(hazelcastConfigFile);
+		}
+		
+		public HazelcastInstance getInstance() {
+			return hazelcastInstance;
 		}
 		
 		public void start() {
