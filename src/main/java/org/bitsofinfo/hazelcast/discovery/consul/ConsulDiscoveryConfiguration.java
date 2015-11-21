@@ -28,10 +28,10 @@ public class ConsulDiscoveryConfiguration {
 			new SimplePropertyDefinition("consul-healthy-only", PropertyTypeConverter.BOOLEAN);
 	
 	public static final PropertyDefinition CONSUL_REGISTRATOR = 
-			new SimplePropertyDefinition("consul-registrator", PropertyTypeConverter.STRING);
+			new SimplePropertyDefinition("consul-registrator", true, PropertyTypeConverter.STRING);
 	
 	public static final PropertyDefinition CONSUL_REGISTRATOR_CONFIG = 
-			new SimplePropertyDefinition("consul-registrator-config", PropertyTypeConverter.STRING);
+			new SimplePropertyDefinition("consul-registrator-config", true, PropertyTypeConverter.STRING);
 	
 	public static final PropertyDefinition CONSUL_DISCOVERY_DELAY_MS = 
 			new SimplePropertyDefinition("consul-discovery-delay-ms", PropertyTypeConverter.INTEGER);

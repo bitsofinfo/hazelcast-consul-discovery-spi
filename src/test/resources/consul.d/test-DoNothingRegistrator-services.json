@@ -1,0 +1,49 @@
+{
+  "services": [
+    {
+      "id": "hz1",
+      "name": "test-DoNothingRegistrator",
+      "tags": [
+        "test1"
+      ],
+      "address": "192.168.0.208",
+      "port": 5701
+    },
+    {
+      "id": "hz2",
+      "name": "test-DoNothingRegistrator",
+      "tags": [
+        "test1"
+      ],
+      "address": "192.168.0.208",
+      "port": 5702
+	},
+	{
+      "id": "hz3",
+      "name": "test-DoNothingRegistrator",
+      "tags": [
+        "test1"
+      ],
+      "address": "192.168.0.208",
+      "port": 5703
+	},
+	    {
+      "id": "hz4",
+      "name": "test-DoNothingRegistrator",
+      "tags": [
+        "test1"
+      ],
+      "address": "192.168.0.208",
+      "port": 5704
+	},
+	{
+      "id": "hz5",
+      "name": "test-DoNothingRegistrator",
+      "tags": [
+        "test1"
+      ],
+      "address": "192.168.0.208",
+      "port": 5705
+	}
+  ]
+}
