@@ -85,6 +85,47 @@ consul agent -server -bootstrap-expect 1 -data-dir /tmp/consul -config-dir /path
 </network>
 ```
 
+7. Once nodes are joined you can query Consul to see the auto-registration of hazelcast instances works, the service-id's generated etc
+
+```
+curl http://localhost:8500/v1/catalog/services
+
+{
+  "consul":[],
+  "hz-discovery-test-cluster":["hazelcast","test1"],
+  "web":["rails"]
+}
+
+curl http://localhost:8500/v1/catalog/service/hz-discovery-test-cluster
+
+[
+  {
+    "Node":"myhost1",
+    "Address":"192.168.0.208",
+    "ServiceID":"hz-discovery-test-cluster-192.168.0.208-192.168.0.208-5701",
+    "ServiceName":"hz-discovery-test-cluster",
+    "ServiceTags":[
+      "hazelcast",
+      "test1"
+    ],
+    "ServiceAddress":"192.168.0.208",
+    "ServicePort":5701
+  },
+  {
+    "Node":"myhost1",
+    "Address":"192.168.0.208",
+    "ServiceID":"hz-discovery-test-cluster-192.168.0.208-192.168.0.208-5702",
+    "ServiceName":"hz-discovery-test-cluster",
+    "ServiceTags":[
+      "hazelcast",
+      "test1"
+    ],
+    "ServiceAddress":"192.168.0.208",
+    "ServicePort":5702
+  }
+]
+```
+
 ## Consul UI example
 
 Showing [LocalDiscoveryNodeRegistrator](src/main/java/org/bitsofinfo/hazelcast/discovery/consul/LocalDiscoveryNodeRegistrator.java) configured hazelcast services with health-checks
