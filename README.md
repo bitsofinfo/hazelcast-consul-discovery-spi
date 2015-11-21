@@ -7,6 +7,7 @@ This is an easy to configure plug-and-play Hazlecast DiscoveryStrategy that will
 * [Requirements](#requirements)
 * [Features](#features)
 * [Build/Usage](#usage)
+* [Unit tests](#tests)
 * [Related Info](#related)
 * [Todo](#todo)
 * [Notes](#notes)
@@ -134,6 +135,12 @@ Showing [LocalDiscoveryNodeRegistrator](src/main/java/org/bitsofinfo/hazelcast/d
 
 ![Alt text](/docs/consul_ui.png "Diagram1")
 
+## <a id="tests"></a> Unit-tests
+
+It may also help you to understand the functionality by checking out and running the unit-tests
+located at [src/test/java](src/test/java). Be sure to read the comments as some of the tests require
+you to setup your local Consul and edit certain files.
+
 ## <a id="related"></a> Related info
 
 * https://www.consul.io
@@ -141,7 +148,6 @@ Showing [LocalDiscoveryNodeRegistrator](src/main/java/org/bitsofinfo/hazelcast/d
 
 ## <a id="todo"></a> Todo
 
-* Unit-tests
 * Ensure all configuration tweakable via `-D` system properties
 * Add support to force registered IP and PORT (for certain containerized scenarios)
 
