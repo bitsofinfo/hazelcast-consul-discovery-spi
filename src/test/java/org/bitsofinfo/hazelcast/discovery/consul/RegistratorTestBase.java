@@ -22,22 +22,20 @@ import com.orbitz.consul.model.catalog.CatalogService;
 import com.orbitz.consul.model.health.ServiceHealth;
 
 /**
- * Tests for the Hazelcast Consul Discovery SPI strategy
+ * Base test class for the Hazelcast Consul Discovery SPI strategies
+ * writing registrators
  * 
  * @author bitsofinfo
  *
  */
-public class TestHazelcastConsulDiscoverSPI {
+public abstract class RegistratorTestBase {
 	
 	public static final String CONSUL_HOST = "localhost";
 	public static final int CONSUL_PORT = 8500;
+	
+	protected abstract void preConstructHazelcast(int instanceNumber);
 
-	/**
-	 * Tests LocalDiscoveryNodeRegistrator functionality
-	 * 
-	 */
-	@Test
-	public void testLocalDiscoveryNodeRegistrator() {
+	protected void testRegistrator(String hazelcastConfigXmlFilename, String serviceName) {
 		
 		try {
 			
@@ -51,16 +49,18 @@ public class TestHazelcastConsulDiscoverSPI {
 					CONSUL_HOST+":"+CONSUL_PORT+"? IF NOT THIS TEST WILL FAIL! ####################");
 			
 			CatalogClient consulCatalogClient = Consul.builder().withHostAndPort(
-					HostAndPort.fromParts("localhost", 8500))
+					HostAndPort.fromParts(CONSUL_HOST, CONSUL_PORT))
 				.build().catalogClient();
 	
-	
 			HealthClient consulHealthClient = Consul.builder().withHostAndPort(
-					HostAndPort.fromParts("localhost", 8500))
+					HostAndPort.fromParts(CONSUL_HOST, CONSUL_PORT))
 				.build().healthClient();
 			
 			for (int i=0; i<totalInstancesToTest; i++) {
-				HazelcastInstanceMgr mgr = new HazelcastInstanceMgr("test-LocalDiscoveryNodeRegistrator.xml");
+				
+				preConstructHazelcast(i);
+				
+				HazelcastInstanceMgr mgr = new HazelcastInstanceMgr(hazelcastConfigXmlFilename);
 				instances.add(mgr);
 				mgr.start();
 				
@@ -77,11 +77,11 @@ public class TestHazelcastConsulDiscoverSPI {
 			Thread.currentThread().sleep(20000);
 			
 			// validate we have 5 registered...(regardless of health)
-			ConsulResponse<List<CatalogService>> response = consulCatalogClient.getService("test-LocalDiscoveryNodeRegistrator");
+			ConsulResponse<List<CatalogService>> response = consulCatalogClient.getService(serviceName);
 			Assert.assertEquals(totalInstancesToTest,response.getResponse().size());
 			
 			// validate we have 5 healthy
-			ConsulResponse<List<ServiceHealth>> response2 = consulHealthClient.getHealthyServiceInstances("test-LocalDiscoveryNodeRegistrator");
+			ConsulResponse<List<ServiceHealth>> response2 = consulHealthClient.getHealthyServiceInstances(serviceName);
 			Assert.assertEquals(totalInstancesToTest,response2.getResponse().size());
 			
 			// get the map via each instance and 
@@ -107,10 +107,10 @@ public class TestHazelcastConsulDiscoverSPI {
 			deadInstance.shutdown();
 			
 			// let consul healthcheck fail
-			Thread.currentThread().sleep(45000);
+			Thread.currentThread().sleep(60000);
 			
 			// healthy is total -1 now...
-			response2 = consulHealthClient.getHealthyServiceInstances("test-LocalDiscoveryNodeRegistrator");
+			response2 = consulHealthClient.getHealthyServiceInstances(serviceName);
 			Assert.assertEquals((totalInstancesToTest-1),response2.getResponse().size());
 			
 			// pick a random instance, add some entries in map, verify
@@ -135,79 +135,6 @@ public class TestHazelcastConsulDiscoverSPI {
 		
 	}
 	
-	
-	/**
-	 * Tests DoNothingRegistrator functionality
-	 * 
-	 * IMPORTANT:
-	 * 
-	 * Prior to this test you must register a service with
-	 * your local Consul named 'test-DoNothingRegistrator' with
-	 * 5 nodes/instances, and corresponding ports from 5701-5705 (same ip, your local ip)
-	 * 
-	 * You can use the Consul services def for this test located @ src/test/resources/consul.d/test-DoNothingRegistrator-services.json
-	 * and EDIT it (change to your IP as appropriate). Then run this command to start your local consul
-	 * 
-	 * consul agent -server -bootstrap-expect 1 -data-dir /tmp/consul -config-dir src/test/resources/consul.d/ -ui-dir /path/to/consul-web-ui
-	 * 
-	 * This will startup consul appropriately for this test to work.
-	 * 
-	 */
-	@Test
-	public void testDoNothingRegistrator() {
-		
-		try {
-			
-			IMap<Object,Object> testMap1 = null;
-			
-			int totalInstancesToTest = 5;
-			List<HazelcastInstanceMgr> instances = new ArrayList<HazelcastInstanceMgr>();
-			
-			System.out.println("#################### IS CONSUL RUNNING @ " +
-					CONSUL_HOST+":"+CONSUL_PORT+"? IF NOT THIS TEST WILL FAIL! ####################");
-			
-			CatalogClient consulCatalogClient = Consul.builder().withHostAndPort(
-					HostAndPort.fromParts("localhost", 8500))
-				.build().catalogClient();
-	
-			for (int i=0; i<totalInstancesToTest; i++) {
-				HazelcastInstanceMgr mgr = new HazelcastInstanceMgr("test-DoNothingRegistrator.xml");
-				instances.add(mgr);
-				mgr.start();
-				
-				// create testMap1 in first instance and populate it w/ 10 entries
-				if (i == 0) {
-					testMap1 = mgr.getInstance().getMap("testMap1");
-					for(int j=0; j<10; j++) {
-						testMap1.put(j, j);
-					}
-				}
-				
-			}
-			
-			Thread.currentThread().sleep(20000);
-			
-			// validate we have 5 registered...(regardless of health)
-			ConsulResponse<List<CatalogService>> response = consulCatalogClient.getService("test-DoNothingRegistrator");
-			Assert.assertEquals(totalInstancesToTest,response.getResponse().size());
-
-			// get the map via each instance and 
-			// validate it ensuring they are all talking to one another
-			for (HazelcastInstanceMgr mgr : instances) {
-				Assert.assertEquals(10, mgr.getInstance().getMap("testMap1").size());
-			}
-		
-			// shutdown everything
-			for (HazelcastInstanceMgr instance : instances) {
-				instance.shutdown();
-			}
-			
-		} catch(Exception e) {
-			e.printStackTrace();
-			Assert.assertFalse("Unexpected error in test: " + e.getMessage(),false);
-		}
-		
-	}
 	
 	
 	private class HazelcastInstanceMgr {

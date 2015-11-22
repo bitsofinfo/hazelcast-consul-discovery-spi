@@ -11,6 +11,7 @@ This is an easy to configure plug-and-play Hazlecast DiscoveryStrategy that will
 * [Related Info](#related)
 * [Todo](#todo)
 * [Notes](#notes)
+* [Docker info](#docker)
 
 
 ## <a id="status"></a> Status
@@ -32,7 +33,7 @@ This is beta code.
 
 * If you don't want to use the built in Consul registration, just specify the `DoNothingRegistrator` (see below) in your hazelcast discovery-strategy XML config. This will require you to run your own Consul agent that defines the hazelcast service.
 
-* If using self-registration, specify `LocalDiscoveryNodeRegistrator` which additionally supports:
+* If using self-registration, either `LocalDiscoveryNodeRegistrator` or `ExplicitIpPortRegistrator` which additionally support:
     * Automatic registration of the hazelcast instance with Consul
     * Custom Consul health-check script/interval to validate Hazelcast instance healthly
     * Control which IP is published as the service-address with Consul
@@ -153,6 +154,34 @@ you to setup your local Consul and edit certain files.
 
 ## <a id="notes"></a> Notes
 
+### <a id="docker"></a> Containerization (Docker) notes
+
+One of the main drivers for coding this module was for Hazelcast applications that were deployed as Docker containers
+that would need to automatically register themselves with Consul for higher level cluster orchestration of the cluster.
+
+If you are deploying your Hazelcast application as a Docker container, one helpful tip is that you will want to avoid hardwired
+configuration in the hazelcast XML config, but rather have your Docker container take startup arguments that would be translated
+to `-D` system properties on startup. Convienently Hazelcast can consume these JVM system properties and replace variable placeholders in the XML config. See this documentation for examples: [http://docs.hazelcast.org/docs/3.6-EA/manual/html-single/index.html#using-variables](http://docs.hazelcast.org/docs/3.6-EA/manual/html-single/index.html#using-variables) 
+
+Specifically when using this discovery strategy and Docker, it may be useful for you to use the [src/main/java/org/bitsofinfo/hazelcast/discovery/consul/ExplicitIpPortRegistrator.java](ExplicitIpPortRegistrator) `ConsulRegistrator` **instead** of the *LocalDiscoveryNodeRegistrator* as the latter relies on hazelcast to determine its IP/PORT and this may end up being the local container IP, and not the Docker host IP, leading to a situation where a unreachable IP/PORT combination is published to Consul.
+
+**Example:** excerpt from [src/main/resources/explicitIpPortRegistrator-example.xml]
+ 
+Start your hazelcast app such as with the below, this would assume that hazelcast is actually reachable via this configuration
+via your Docker host and the port mappings that were specified on `docker run`. (i.e. the IP below would be your docker host/port that is mapped to the actual hazelcast app container and port it exposes for hazelcast)
+
+`java -jar myHzApp.jar -DregisterWithIpAddress=192.168.0.22 -DregisterWithPort=5703 .... `
+ 
+```
+<property name="consul-registrator-config"><![CDATA[
+      {
+        "registerWithIpAddress":"${registerWithIpAddress}",
+        "registerWithPort":${registerWithPort}, 
+        "healthCheckScript":"exec 6<>/dev/tcp/#MYIP/#MYPORT || (exit 3)",
+        "healthCheckScriptIntervalSeconds":30
+      }
+  ]]></property>
+```
 
 ### Prior hazelcast versions
 For versions of Hazelcast **prior to 3.6** you may want to look at these projects which seem to provide older implementations of Consul based discovery:

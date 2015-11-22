@@ -53,16 +53,9 @@
                       <property name="consul-healthy-only">true</property>
                       
                       <!-- 
-                           Comma separated list of Consul service tags that will be used when trying to find peer hazelcast
-                           services in Consul who are part of the same cluster and will be discovered and treated as peer
-                           members of the hazelcast cluster. 
-                           
-                           NOTE: IF you define an ConsulRegistrator below OTHER THAN 'DoNothingRegistrator'.....
-                           
-                                IMPORTANT: The ConsulRegistrator below will use these tags when registering this node. At least 
-                                ONE of these tags should be unique/shared across all nodes in a unique hazelcast cluster, 
-                                i.e. make one of the tags = to the hazelcast group name to prevent nodes
-                                from cross-discovering each other across separate clusters that use the same Consul cluster 
+                           Comma separated list of Consul service tags that will be used when registering services 
+                           in Consul who are part of the same cluster and will be discovered and treated as peer
+                           members of the hazelcast cluster.      
                       -->
                       <property name="consul-service-tags">hazelcast,test1</property>
                       
@@ -87,6 +80,10 @@
                                                              (and tags above) as the identifiers for registering itself with Consul
                                                              as a unique service.
                                                              
+                            ExplicitIpPortRegistrator: Uses an explicit IP:PORT specified by you in the 'consul-registrator-config' below
+                                                             (and tags above) as the identifiers for registering itself with Consul
+                                                             as a unique service.
+                                                             
                             DoNothingRegistrator: Does NOTHING in regards to registration or deregistration of this node as a service
                                                   with Consul. This should be used if you are running a local Consul agent yourself and 
                                                   managing the registration of this Hazelcast node manually via standard Consul configs
@@ -101,7 +98,7 @@
                            The configuration below is for LocalDiscoveryNodeRegistrator:
                            
                                     - preferPublicAddress (true|false) : use the public IP determined by
-                                                                          hazelcast (if not null) over the private IP
+                                                                         hazelcast (if not null) over the private IP
                                                                           
                                     - healthCheckScript: can be anything you want Consul to do to determine health. 
                                                          Variables #MYIP/#MYPORT will be replaced with this node's IP/PORT
@@ -116,6 +113,32 @@
                                                                         "healthCheckScriptIntervalSeconds":30
                                                                       }
                                                                   ]]></property>
+                                                                  
+                                                                  
+                                                                  
+                      <!-- The configuration below is for ExplicitIpPortRegistrator:
+                           
+                                    - registerWithIpAddress: register with this IP in Consul
+                                    
+                                    - registerWithPort: register with this PORT in Consul
+                                                                          
+                                    - healthCheckScript: can be anything you want Consul to do to determine health. 
+                                                         Variables #MYIP/#MYPORT will be replaced with this node's IP/PORT
+                                                         @see https://www.consul.io/docs/agent/checks.html
+                                                         
+                                    - healthCheckScriptIntervalSeconds: self explanatory
+                     
+                      <property name="consul-registrator-config"><![CDATA[
+                                                                      {
+                                                                        "registerWithIpAddress":"192.168.0.208",
+                                                                        "registerWithPort":5701, 
+                                                                        "healthCheckScript":"exec 6<>/dev/tcp/#MYIP/#MYPORT || (exit 3)",
+                                                                        "healthCheckScriptIntervalSeconds":30
+                                                                      }
+                                                                  ]]></property>
+                     -->
+                     
+                     
                  </properties>
                </discovery-strategy>
              </discovery-strategies>

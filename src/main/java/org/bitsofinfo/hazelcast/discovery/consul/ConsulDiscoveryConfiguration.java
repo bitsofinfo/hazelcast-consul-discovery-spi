@@ -19,7 +19,7 @@ public class ConsulDiscoveryConfiguration {
 			new SimplePropertyDefinition("consul-port", PropertyTypeConverter.INTEGER);
 	
 	public static final PropertyDefinition CONSUL_SERVICE_TAGS = 
-			new SimplePropertyDefinition("consul-service-tags", PropertyTypeConverter.STRING);
+			new SimplePropertyDefinition("consul-service-tags", true, PropertyTypeConverter.STRING);
 	
 	public static final PropertyDefinition CONSUL_SERVICE_NAME = 
 			new SimplePropertyDefinition("consul-service-name", PropertyTypeConverter.STRING);

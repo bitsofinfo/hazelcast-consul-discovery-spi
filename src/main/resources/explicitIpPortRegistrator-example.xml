@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hazelcast id="hazelcast-consul-discovery" 
+           xsi:schemaLocation="http://www.hazelcast.com/schema/config hazelcast-config-3.6.xsd"
+           xmlns="http://www.hazelcast.com/schema/config"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+           
+    <!-- NOTE! any XML value below can be variables that will be fetched from
+         -D system properties @see http://docs.hazelcast.org/docs/3.6-EA/manual/html-single/index.html#using-variables  -->
+    <group>
+        <name>hazelcast-consul-discovery-spi</name>
+        <password>haz3lcast1</password>
+    </group>
+
+    <properties>
+        <property name="hazelcast.discovery.enabled">true</property>
+        <property name="hazelcast.shutdownhook.enabled">false</property> 
+    </properties>
+
+    <network>
+        <port auto-increment="true">5701</port>
+        
+        <join>
+            <multicast enabled="false"/>
+              <aws enabled="false"/>
+              <tcp-ip enabled="false" />
+              
+             <discovery-strategies>
+        
+               <discovery-strategy enabled="true"
+                   class="org.bitsofinfo.hazelcast.discovery.consul.ConsulDiscoveryStrategy">
+        
+                 <properties>
+                      <property name="consul-host">localhost</property>
+                      <property name="consul-port">8500</property>
+                      <property name="consul-service-name">hz-discovery-test-cluster</property>
+                      <property name="consul-healthy-only">true</property>
+                      <property name="consul-service-tags">hazelcast,test1</property>
+                      <property name="consul-discovery-delay-ms">10000</property>
+                      <property name="consul-registrator">org.bitsofinfo.hazelcast.discovery.consul.ExplicitIpPortRegistrator</property>
+                      <property name="consul-registrator-config"><![CDATA[
+                                                                      {
+                                                                        "registerWithIpAddress":"192.168.0.208",
+                                                                        "registerWithPort":5701, 
+                                                                        "healthCheckScript":"exec 6<>/dev/tcp/#MYIP/#MYPORT || (exit 3)",
+                                                                        "healthCheckScriptIntervalSeconds":30
+                                                                      }
+                                                                  ]]></property>
+                
+                 </properties>
+               </discovery-strategy>
+             </discovery-strategies>
+              
+        </join>
+    </network>
+</hazelcast>
