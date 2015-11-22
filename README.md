@@ -14,17 +14,17 @@ This is an easy to configure plug-and-play Hazlecast DiscoveryStrategy that will
 * [Docker info](#docker)
 
 
-## <a id="status"></a> Status
+## <a id="status"></a>Status
 
 This is beta code.
 
-## <a id="requirements"></a> Requirements
+## <a id="requirements"></a>Requirements
 
 * Java 6+
 * [Hazelcast 3.6-EA+](https://hazelcast.org/)
 * [Consul](https://consul.io/)
 
-## <a id="features"></a> Features
+## <a id="features"></a>Features
 
 
 * Supports two modes of operation:
@@ -40,7 +40,7 @@ This is beta code.
     * Configurable discovery delay
     * Automatic Consul de-registration of instance via ShutdownHook
 
-## <a id="usage"></a> Build & Usage
+## <a id="usage"></a>Build & Usage
 
 * Have Consul running and available somewhere on your network, start it such as:
 ```
@@ -136,25 +136,25 @@ Showing [LocalDiscoveryNodeRegistrator](src/main/java/org/bitsofinfo/hazelcast/d
 
 ![Alt text](/docs/consul_ui.png "Diagram1")
 
-## <a id="tests"></a> Unit-tests
+## <a id="tests"></a>Unit-tests
 
 It may also help you to understand the functionality by checking out and running the unit-tests
 located at [src/test/java](src/test/java). Be sure to read the comments as some of the tests require
 you to setup your local Consul and edit certain files.
 
-## <a id="related"></a> Related info
+## <a id="related"></a>Related info
 
 * https://www.consul.io
 * http://docs.hazelcast.org/docs/3.6-EA/manual/html-single/index.html#discovery-spi
 
-## <a id="todo"></a> Todo
+## <a id="todo"></a>Todo
 
 * Ensure all configuration tweakable via `-D` system properties
 * Add support to force registered IP and PORT (for certain containerized scenarios)
 
 ## <a id="notes"></a> Notes
 
-### <a id="docker"></a> Containerization (Docker) notes
+### <a id="docker"></a>Containerization (Docker) notes
 
 One of the main drivers for coding this module was for Hazelcast applications that were deployed as Docker containers
 that would need to automatically register themselves with Consul for higher level cluster orchestration of the cluster.
@@ -163,9 +163,9 @@ If you are deploying your Hazelcast application as a Docker container, one helpf
 configuration in the hazelcast XML config, but rather have your Docker container take startup arguments that would be translated
 to `-D` system properties on startup. Convienently Hazelcast can consume these JVM system properties and replace variable placeholders in the XML config. See this documentation for examples: [http://docs.hazelcast.org/docs/3.6-EA/manual/html-single/index.html#using-variables](http://docs.hazelcast.org/docs/3.6-EA/manual/html-single/index.html#using-variables) 
 
-Specifically when using this discovery strategy and Docker, it may be useful for you to use the [src/main/java/org/bitsofinfo/hazelcast/discovery/consul/ExplicitIpPortRegistrator.java](ExplicitIpPortRegistrator) `ConsulRegistrator` **instead** of the *LocalDiscoveryNodeRegistrator* as the latter relies on hazelcast to determine its IP/PORT and this may end up being the local container IP, and not the Docker host IP, leading to a situation where a unreachable IP/PORT combination is published to Consul.
+Specifically when using this discovery strategy and Docker, it may be useful for you to use the [ExplicitIpPortRegistrator](src/main/java/org/bitsofinfo/hazelcast/discovery/consul/ExplicitIpPortRegistrator.java) `ConsulRegistrator` **instead** of the *LocalDiscoveryNodeRegistrator* as the latter relies on hazelcast to determine its IP/PORT and this may end up being the local container IP, and not the Docker host IP, leading to a situation where a unreachable IP/PORT combination is published to Consul.
 
-**Example:** excerpt from [src/main/resources/explicitIpPortRegistrator-example.xml]
+**Example:** excerpt from [explicitIpPortRegistrator-example.xml](src/main/resources/explicitIpPortRegistrator-example.xml)
  
 Start your hazelcast app such as with the below, this would assume that hazelcast is actually reachable via this configuration
 via your Docker host and the port mappings that were specified on `docker run`. (i.e. the IP below would be your docker host/port that is mapped to the actual hazelcast app container and port it exposes for hazelcast)
