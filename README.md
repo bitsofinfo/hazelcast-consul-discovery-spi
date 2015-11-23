@@ -54,8 +54,8 @@ consul agent -server -bootstrap-expect 1 -data-dir /tmp/consul -config-dir /path
 
 ```
 compile group: 'com.orbitz.consul', name: 'consul-client', version:'0.9.12'
-compile group: 'org.apache.cxf' name:'cxf-rt-rs-client' version:'3.0.3'
-compile group: 'org.apache.cxf' name:'cxf-rt-transports-http-hc' version:'3.0.3'
+compile group: 'org.apache.cxf', name:'cxf-rt-rs-client', version:'3.0.3'
+compile group: 'org.apache.cxf', name:'cxf-rt-transports-http-hc', version:'3.0.3'
 ``` 
 
 * Configure your hazelcast.xml configuration file to use the `ConsulDiscoveryStrategy` (similar to the below): [See hazelcast-consul-discovery-spi-example.xml](src/main/resources/hazelcast-consul-discovery-spi-example.xml) for a full example with documentation of options.
