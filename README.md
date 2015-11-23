@@ -50,6 +50,14 @@ consul agent -server -bootstrap-expect 1 -data-dir /tmp/consul -config-dir /path
 
 * Include the built jar artifact located at `build/libs/hazelcast-consul-discovery-spi-1.0.0.jar` in your hazelcast project
 
+* If not already present in your hazelcast application's Maven (pom.xml) or Gradle (build.gradle) dependencies section; ensure that these dependencies are present (versions may vary as appropriate):
+
+```
+compile group: 'com.orbitz.consul', name: 'consul-client', version:'0.9.12'
+compile group: 'org.apache.cxf' name:'cxf-rt-rs-client' version:'3.0.3'
+compile group: 'org.apache.cxf' name:'cxf-rt-transports-http-hc' version:'3.0.3'
+``` 
+
 * Configure your hazelcast.xml configuration file to use the `ConsulDiscoveryStrategy` (similar to the below): [See hazelcast-consul-discovery-spi-example.xml](src/main/resources/hazelcast-consul-discovery-spi-example.xml) for a full example with documentation of options.
 
 * Launch your hazelcast instances, configured with the Consul discovery-strategy similar to the below: [see ManualRunner.java](src/test/java/org/bitsofinfo/hazelcast/discovery/consul/ManualRunner.java) example.
