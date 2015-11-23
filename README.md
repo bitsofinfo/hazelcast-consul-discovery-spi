@@ -168,9 +168,11 @@ Specifically when using this discovery strategy and Docker, it may be useful for
 **Example:** excerpt from [explicitIpPortRegistrator-example.xml](src/main/resources/explicitIpPortRegistrator-example.xml)
  
 Start your hazelcast app such as with the below, this would assume that hazelcast is actually reachable via this configuration
-via your Docker host and the port mappings that were specified on `docker run`. (i.e. the IP below would be your docker host/port that is mapped to the actual hazelcast app container and port it exposes for hazelcast)
+via your Docker host and the port mappings that were specified on `docker run`. (i.e. the IP below would be your docker host/port that is mapped to the actual hazelcast app container and port it exposes for hazelcast). 
 
-`java -jar myHzApp.jar -DregisterWithIpAddress=192.168.0.22 -DregisterWithPort=5703 .... `
+[https://github.com/docker/docker/issues/3778}(See this Docker issue for related info on detecting mapped ports/ip from **within** a container)
+
+`java -jar myHzApp.jar -DregisterWithIpAddress=<dockerHostIp> -DregisterWithPort=<mappedContainerPortOnDockerHost> .... `
  
 ```
 <property name="consul-registrator-config"><![CDATA[
