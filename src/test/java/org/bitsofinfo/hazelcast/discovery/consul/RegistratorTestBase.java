@@ -1,11 +1,11 @@
 package org.bitsofinfo.hazelcast.discovery.consul;
 
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import org.junit.Assert;
-import org.junit.Test;
 
 import com.google.common.net.HostAndPort;
 import com.hazelcast.config.ClasspathXmlConfig;
@@ -33,7 +33,7 @@ public abstract class RegistratorTestBase {
 	public static final String CONSUL_HOST = "localhost";
 	public static final int CONSUL_PORT = 8500;
 	
-	protected abstract void preConstructHazelcast(int instanceNumber);
+	protected abstract void preConstructHazelcast(int instanceNumber) throws Exception;
 
 	protected void testRegistrator(String hazelcastConfigXmlFilename, String serviceName) {
 		
@@ -162,5 +162,14 @@ public abstract class RegistratorTestBase {
 			return this.hazelcastInstance.getCluster().getLocalMember().getAddress();
 		}
 		
+	}
+	
+	protected String determineIpAddress() throws Exception {
+		
+		InetAddress addr = InetAddress.getLocalHost();
+		String ipAdd = addr.getHostAddress();
+		
+		return ipAdd;
+
 	}
 }

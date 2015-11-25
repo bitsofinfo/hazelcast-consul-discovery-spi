@@ -23,8 +23,8 @@ public class TestExplicitIpPortRegistrator extends RegistratorTestBase {
 	}
 
 	@Override
-	protected void preConstructHazelcast(int instanceNumber) {
-		String ip = "192.168.0.208";
+	protected void preConstructHazelcast(int instanceNumber) throws Exception {
+		String ip = super.determineIpAddress();
 		
 		// these variables are subsituted for the ${vars} in the hazelcast config XML 
 		System.setProperty("registerWithIp", ip);

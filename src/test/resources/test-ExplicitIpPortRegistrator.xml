@@ -11,7 +11,7 @@
      #####################
      -->
     <group>
-        <name>test-LocalDiscoveryNodeRegistrator</name>
+        <name>test-ExplicitIpPortRegistrator</name>
         <password>haz3lcast1</password>
     </group>
 

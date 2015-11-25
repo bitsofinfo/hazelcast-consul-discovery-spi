@@ -154,6 +154,7 @@ you to setup your local Consul and edit certain files.
 
 * https://www.consul.io
 * http://docs.hazelcast.org/docs/3.6-EA/manual/html-single/index.html#discovery-spi
+* **Etcd** version of this: https://github.com/bitsofinfo/hazelcast-etcd-discovery-spi
 
 ## <a id="todo"></a>Todo
 
