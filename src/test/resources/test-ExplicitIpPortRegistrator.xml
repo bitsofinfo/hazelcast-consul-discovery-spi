@@ -55,5 +55,6 @@
              </discovery-strategies>
               
         </join>
+        
     </network>
 </hazelcast>

@@ -39,7 +39,7 @@ public class TestDoNothingRegistrator {
 	 * 5 nodes/instances, and corresponding ports from 5701-5705 (same ip, your local ip)
 	 * 
 	 * You can use the Consul services def for this test located @ src/test/resources/consul.d/test-DoNothingRegistrator-services.json
-	 * and EDIT it (change to your IP as appropriate). Then run this command to start your local consul
+	 * Then run this command to start your local consul
 	 * 
 	 * consul agent -server -bootstrap-expect 1 -data-dir /tmp/consul -config-dir src/test/resources/consul.d/ -ui-dir /path/to/consul-web-ui
 	 * 
