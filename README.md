@@ -13,6 +13,7 @@ This is an easy to configure plug-and-play Hazlecast DiscoveryStrategy that will
 * [Notes](#notes)
 * [Docker info](#docker)
 
+![Alt text](/docs/diag.png "Diagram2")
 
 ## <a id="status"></a>Status
 
