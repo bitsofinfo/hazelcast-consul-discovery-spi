@@ -57,7 +57,7 @@ publishing {
     publications {
         hazelcastConsulDiscoverySpi(MavenPublication) {
             from components.java
-            groupId 'org.bitsofinfo.hazelcast'
+            groupId project.property('group')
             artifactId 'hazelcast-consul-discovery-spi'
             version project.property('version')
         }
