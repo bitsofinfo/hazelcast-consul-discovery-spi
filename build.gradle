@@ -60,8 +60,19 @@ publishing {
             groupId project.property('group')
             artifactId 'hazelcast-consul-discovery-spi'
             version project.property('version')
+            
+            artifact sourcesJar 
         }
     }
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives sourcesJar
 }
 
     
