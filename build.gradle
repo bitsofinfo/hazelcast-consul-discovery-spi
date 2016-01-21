@@ -1,26 +1,69 @@
+buildscript {
+	repositories {
+    	jcenter()
+    }
+}
 
-apply plugin: 'java'
+plugins {
+    id "com.jfrog.bintray" version "1.5"
+}
 
 group = 'org.bitsofinfo'
-version = '1.0.0'
 
-description = """hazelcast-consul-discovery-spi"""
+allprojects {
+	repositories {
+		jcenter()
+	}
+	apply plugin: 'maven'
+	apply plugin: 'maven-publish'
+	apply plugin: 'java'
+}
 
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
 
-repositories {
-   jcenter()
-}
-
 dependencies {
 
-    compile group: 'com.hazelcast', name: 'hazelcast', version:'3.6-EA'
-    compile group: 'com.orbitz.consul', name: 'consul-client', version:'0.9.12'
+    compile group: 'com.hazelcast', name: 'hazelcast', version:'3.6-RC1'
+    compile group: 'com.orbitz.consul', name: 'consul-client', version:'0.9.16'
     
-    compile 'org.apache.cxf:cxf-rt-rs-client:3.0.3'
-    compile 'org.apache.cxf:cxf-rt-transports-http-hc:3.0.3'
-    
+    // for consul-client
+    testCompile 'org.apache.cxf:cxf-rt-rs-client:3.0.3'
+    testCompile 'org.apache.cxf:cxf-rt-transports-http-hc:3.0.3'
     testCompile 'junit:junit:4.12'
     
 }
+
+bintray {
+	user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('bintrayUser')
+	key = project.hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('bintrayApiKey')
+    publications = ['hazelcastConsulDiscoverySpi'] 
+    pkg {
+        repo = 'maven'
+        name = 'hazelcast-consul-discovery-spi'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/bitsofinfo/hazelcast-consul-discovery-spi'
+        publicDownloadNumbers = true
+        version {
+		    name = project.property('version')
+		    desc = project.property('version') + " : " + project.property('description')
+		    released  = new Date()
+		    vcsTag = project.property('version')
+		}
+    }
+}
+
+publishing {
+    publications {
+        hazelcastConsulDiscoverySpi(MavenPublication) {
+            from components.java
+            groupId 'org.bitsofinfo.hazelcast'
+            artifactId 'hazelcast-consul-discovery-spi'
+            version project.property('version')
+        }
+    }
+}
+
+    
+
+

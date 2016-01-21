@@ -29,11 +29,11 @@ import com.orbitz.consul.model.agent.Registration;
  * which are available to all derivative classes
  *
  *	 - healthCheckScript: can be anything you want Consul to do to determine health. 
- *	                      Variables #MYIP/#MYPORT will be replaced 
- *	                      @see https://www.consul.io/docs/agent/checks.html
+ *	                      Variables #MYIP/#MYPORT will be replaced. https://www.consul.io/docs/agent/checks.html 
  *	                      
  *	 - healthCheckScriptIntervalSeconds: self explanatory
- *   			           		 
+ *   			           		
+ * 
  * @author bitsofinfo
  *
  */
