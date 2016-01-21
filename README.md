@@ -206,7 +206,7 @@ compile group: 'org.apache.cxf', name:'cxf-rt-transports-http-hc', version:'3.0.
 
 Showing [LocalDiscoveryNodeRegistrator](src/main/java/org/bitsofinfo/hazelcast/discovery/consul/LocalDiscoveryNodeRegistrator.java) configured hazelcast services with health-checks
 
-![Alt text](/docs/consul_ui.png "Diagram1")
+![Diagram of consul ui](/docs/consul_ui.png "Diagram1")
 
 ## <a id="tests"></a>Unit-tests
 
