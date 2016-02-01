@@ -20,11 +20,11 @@ This is an easy to configure plug-and-play Hazlecast DiscoveryStrategy that will
 
 ## <a id="status"></a>Status
 
-This is beta code, tested against Hazelcast 3.6
+This is beta code, tested against Hazelcast 3.6-EA+ through 3.6 Stable releases.
 
 ## <a id="releases"></a>Releases
 
-* [1.0-RC1](https://github.com/bitsofinfo/hazelcast-consul-discovery-spi/releases/tag/1.0-RC1): Tested against Hazelcast 3.6
+* [1.0-RC1](https://github.com/bitsofinfo/hazelcast-consul-discovery-spi/releases/tag/1.0-RC1): Tested against Hazelcast 3.6-EA+ through 3.6 Stable releases
 
 ## <a id="requirements"></a>Requirements
 
@@ -242,6 +242,9 @@ To run individual unit-test, use the `test.single` argument to provide the unit-
 ```
 $ ./gradlew test -Dtest.single=TestDoNothingRegistrator
 ```
+
+##### Note on running `TestDoNothingRegistrator` unit-test
+The `TestDoNothingRegistrator` unit-test should be run separately using the `test.single` argument as demonstrated above as it requires you to register a service with your local consul with 5 nodes/instances. Please **CAREFULLY READ** the comments in `TestDoNothingRegistrator.java` to see how this test should be run.
 
 ## <a id="related"></a>Related info
 
