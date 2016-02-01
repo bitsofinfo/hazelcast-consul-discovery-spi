@@ -24,7 +24,9 @@ This is beta code, tested against Hazelcast 3.6-EA+ through 3.6 Stable releases.
 
 ## <a id="releases"></a>Releases
 
-* [1.0-RC1](https://github.com/bitsofinfo/hazelcast-consul-discovery-spi/releases/tag/1.0-RC1): Tested against Hazelcast 3.6-EA+ through 3.6 Stable releases
+* [1.0-RC1](https://github.com/bitsofinfo/hazelcast-consul-discovery-spi/releases/tag/1.0-RC1): Tested against Hazelcast 3.6-EA+ through 3.6-RC1 Stable releases
+
+* [1.0-RC2](https://github.com/bitsofinfo/hazelcast-consul-discovery-spi/releases/tag/1.0-RC2): Tested against Hazelcast 3.6-EA+ through 3.6 Stable releases
 
 ## <a id="requirements"></a>Requirements
 
@@ -44,7 +46,7 @@ repositories {
 }
 
 dependencies {
-	compile 'org.bitsofinfo:hazelcast-consul-discovery-spi:1.0-RC1'
+	compile 'org.bitsofinfo:hazelcast-consul-discovery-spi:1.0-RC2'
 
     // include your preferred javax.ws.rs-api implementation
     // (for the OrbitzWorldwide/consul-client dependency)
@@ -61,7 +63,7 @@ dependencies {
     <dependency>
         <groupId>org.bitsofinfo</groupId>
         <artifactId>hazelcast-consul-discovery-spi</artifactId>
-        <version>1.0-RC1</version>
+        <version>1.0-RC2</version>
     </dependency>
 
     <!-- include your preferred javax.ws.rs-api
