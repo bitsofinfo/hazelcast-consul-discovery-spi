@@ -24,20 +24,20 @@ targetCompatibility = 1.6
 
 dependencies {
 
-    compile group: 'com.hazelcast', name: 'hazelcast', version:'3.6-RC1'
+    compile group: 'com.hazelcast', name: 'hazelcast', version:'3.6'
     compile group: 'com.orbitz.consul', name: 'consul-client', version:'0.9.16'
-    
+
     // for consul-client
     testCompile 'org.apache.cxf:cxf-rt-rs-client:3.0.3'
     testCompile 'org.apache.cxf:cxf-rt-transports-http-hc:3.0.3'
     testCompile 'junit:junit:4.12'
-    
+
 }
 
 bintray {
 	user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('bintrayUser')
 	key = project.hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('bintrayApiKey')
-    publications = ['hazelcastConsulDiscoverySpi'] 
+    publications = ['hazelcastConsulDiscoverySpi']
     pkg {
         repo = 'maven'
         name = 'hazelcast-consul-discovery-spi'
@@ -60,8 +60,8 @@ publishing {
             groupId project.property('group')
             artifactId 'hazelcast-consul-discovery-spi'
             version project.property('version')
-            
-            artifact sourcesJar 
+
+            artifact sourcesJar
         }
     }
 }
@@ -71,10 +71,25 @@ task sourcesJar(type: Jar, dependsOn: classes) {
     from sourceSets.main.allSource
 }
 
+task runTests(type: Test) {
+	description 'Runs unit tests for all tests except TestDoNothingRegistrator.'
+  	
+  	//Always run tests even when up-to-date 
+  	outputs.upToDateWhen { 
+  		false 
+  	}
+	
+	//Exclude TestDoNothingRegistrator test because it requires special setup 
+    exclude "**/TestDoNothingRegistrator.class"
+}
+
+runTests {
+    testLogging {
+        // Show that tests are run in the command-line output
+        events 'started', 'passed'
+    }
+}
+
 artifacts {
     archives sourcesJar
 }
-
-    
-
-
