@@ -1,6 +1,6 @@
 # hazelcast-consul-discovery-spi
 
-Provides a Consul based discovery strategy for Hazlecast 3.6-RC1+ enabled applications.
+Provides a Consul based discovery strategy for Hazlecast 3.6+ enabled applications.
 This is an easy to configure plug-and-play Hazlecast DiscoveryStrategy that will optionally register each of your Hazelcast instances with Consul and enable Hazelcast nodes to dynamically discover one another via Consul.
 
 * [Status](#status)
@@ -20,16 +20,16 @@ This is an easy to configure plug-and-play Hazlecast DiscoveryStrategy that will
 
 ## <a id="status"></a>Status
 
-This is beta code, tested against Hazelcast 3.6-EA and 3.6-RC1
+This is beta code, tested against Hazelcast 3.6-EA+ through 3.6 Stable releases.
 
 ## <a id="releases"></a>Releases
 
-* [1.0-RC1](https://github.com/bitsofinfo/hazelcast-consul-discovery-spi/releases/tag/1.0-RC1): Tested against Hazelcast 3.6-EA and 3.6-RC1
+* [1.0-RC1](https://github.com/bitsofinfo/hazelcast-consul-discovery-spi/releases/tag/1.0-RC1): Tested against Hazelcast 3.6-EA+ through 3.6 Stable releases
 
 ## <a id="requirements"></a>Requirements
 
 * Java 6+
-* [Hazelcast 3.6-RC1+](https://hazelcast.org/)
+* [Hazelcast 3.6+](https://hazelcast.org/)
 * [Consul](https://consul.io/)
 
 ## <a id="mavengradle"></a>Maven/Gradle
@@ -40,13 +40,13 @@ To use this discovery strategy in your Maven or Gradle project use the dependenc
 
 ```
 repositories {
-    jcenter() 
+    jcenter()
 }
 
 dependencies {
 	compile 'org.bitsofinfo:hazelcast-consul-discovery-spi:1.0-RC1'
-	
-    // include your preferred javax.ws.rs-api implementation 
+
+    // include your preferred javax.ws.rs-api implementation
     // (for the OrbitzWorldwide/consul-client dependency)
     // for example below:
     compile 'org.apache.cxf:cxf-rt-rs-client:3.0.3'
@@ -63,10 +63,10 @@ dependencies {
         <artifactId>hazelcast-consul-discovery-spi</artifactId>
         <version>1.0-RC1</version>
     </dependency>
-    
-    <!-- include your preferred javax.ws.rs-api 
+
+    <!-- include your preferred javax.ws.rs-api
          (for the https://github.com/OrbitzWorldwide/consul-client dependency)
-         implementation - see gradle example above 
+         implementation - see gradle example above
     -->
 </dependencies>
 
@@ -97,8 +97,8 @@ dependencies {
     * Control which IP is published as the service-address with Consul
     * Configurable discovery delay
     * Automatic Consul de-registration of instance via ShutdownHook
-    
-    
+
+
 ## <a id="usage"></a>Usage
 
 * Ensure your project has the `hazelcast-consul-discovery-spi` artifact dependency declared in your maven pom or gradle build file as described above. Or build the jar yourself and ensure the jar is in your project's classpath.
@@ -200,7 +200,7 @@ consul agent -server -bootstrap-expect 1 -data-dir /tmp/consul -config-dir /path
 compile group: 'com.orbitz.consul', name: 'consul-client', version:'0.9.16'
 compile group: 'org.apache.cxf', name:'cxf-rt-rs-client', version:'3.0.3'
 compile group: 'org.apache.cxf', name:'cxf-rt-transports-http-hc', version:'3.0.3'
-``` 
+```
 
 ## Consul UI example
 
@@ -214,10 +214,42 @@ It may also help you to understand the functionality by checking out and running
 located at [src/test/java](src/test/java). **BE SURE TO READ** the comments in the test source files
 as some of the tests require you to setup your local Consul and edit certain files.
 
+From the command line you can run `TestExplicitIpPortRegistrator` and `TestLocalDiscoveryNodeRegistrator` unit-tests by invoking the `runTests` task using `gradlew` that runs both tests and displays the result on the console.
+
+```
+$ ./gradlew runTests
+```
+
+The task above will display output indicating the test has started and whether the test has passed or failed.
+
+###### Sample output for passing test:
+```
+org.bitsofinfo.hazelcast.discovery.consul.TestExplicitIpPortRegistrator > testExplicitIpPortRegistrator STARTED
+
+org.bitsofinfo.hazelcast.discovery.consul.TestExplicitIpPortRegistrator > testExplicitIpPortRegistrator PASSED
+```
+
+###### Sample output for failing test:
+```
+org.bitsofinfo.hazelcast.discovery.consul.TestDoNothingRegistrator > testDoNothingRegistrator STARTED
+
+org.bitsofinfo.hazelcast.discovery.consul.TestDoNothingRegistrator > testDoNothingRegistrator FAILED
+    java.lang.AssertionError at TestDoNothingRegistrator.java:85
+```
+
+To run individual unit-test, use the `test.single` argument to provide the unit-test you would like to run. The command below runs the unit test for `TestDoNothingRegistrator`
+
+```
+$ ./gradlew test -Dtest.single=TestDoNothingRegistrator
+```
+
+##### Note on running `TestDoNothingRegistrator` unit-test
+The `TestDoNothingRegistrator` unit-test should be run separately using the `test.single` argument as demonstrated above as it requires you to register a service with your local consul with 5 nodes/instances. Please **CAREFULLY READ** the comments in `TestDoNothingRegistrator.java` to see how this test should be run.
+
 ## <a id="related"></a>Related info
 
 * https://www.consul.io
-* http://docs.hazelcast.org/docs/3.6-RC1/manual/html-single/index.html#discovery-spi
+* http://docs.hazelcast.org/docs/3.6/manual/html-single/index.html#discovery-spi
 * **Etcd** version of this: https://github.com/bitsofinfo/hazelcast-etcd-discovery-spi
 
 ## <a id="todo"></a>Todo
@@ -233,24 +265,24 @@ that would need to automatically register themselves with Consul for higher leve
 
 If you are deploying your Hazelcast application as a Docker container, one helpful tip is that you will want to avoid hardwired
 configuration in the hazelcast XML config, but rather have your Docker container take startup arguments that would be translated
-to `-D` system properties on startup. Convienently Hazelcast can consume these JVM system properties and replace variable placeholders in the XML config. See this documentation for examples: [http://docs.hazelcast.org/docs/3.6-RC1/manual/html-single/index.html#using-variables](http://docs.hazelcast.org/docs/3.6-RC1/manual/html-single/index.html#using-variables) 
+to `-D` system properties on startup. Convienently Hazelcast can consume these JVM system properties and replace variable placeholders in the XML config. See this documentation for examples: [http://docs.hazelcast.org/docs/3.6/manual/html-single/index.html#using-variables](http://docs.hazelcast.org/docs/3.6/manual/html-single/index.html#using-variables)
 
 Specifically when using this discovery strategy and Docker, it may be useful for you to use the [ExplicitIpPortRegistrator](src/main/java/org/bitsofinfo/hazelcast/discovery/consul/ExplicitIpPortRegistrator.java) `ConsulRegistrator` **instead** of the *LocalDiscoveryNodeRegistrator* as the latter relies on hazelcast to determine its IP/PORT and this may end up being the local container IP, and not the Docker host IP, leading to a situation where a unreachable IP/PORT combination is published to Consul.
 
 **Example:** excerpt from [explicitIpPortRegistrator-example.xml](src/main/resources/explicitIpPortRegistrator-example.xml)
- 
-Start your hazelcast app such as with the below, this would assume that hazelcast is actually reachable via this configuration
-via your Docker host and the port mappings that were specified on `docker run`. (i.e. the IP below would be your docker host/port that is mapped to the actual hazelcast app container and port it exposes for hazelcast). 
 
-See this [Docker issue for related info](https://github.com/docker/docker/issues/3778) on detecting mapped ports/ip from **within** a container	
+Start your hazelcast app such as with the below, this would assume that hazelcast is actually reachable via this configuration
+via your Docker host and the port mappings that were specified on `docker run`. (i.e. the IP below would be your docker host/port that is mapped to the actual hazelcast app container and port it exposes for hazelcast).
+
+See this [Docker issue for related info](https://github.com/docker/docker/issues/3778) on detecting mapped ports/ip from **within** a container
 
 `java -jar myHzApp.jar -DregisterWithIpAddress=<dockerHostIp> -DregisterWithPort=<mappedContainerPortOnDockerHost> .... `
- 
+
 ```
 <property name="consul-registrator-config"><![CDATA[
       {
         "registerWithIpAddress":"${registerWithIpAddress}",
-        "registerWithPort":${registerWithPort}, 
+        "registerWithPort":${registerWithPort},
         "healthCheckScript":"exec 6<>/dev/tcp/#MYIP/#MYPORT || (exit 3)",
         "healthCheckScriptIntervalSeconds":30
       }
@@ -270,11 +302,11 @@ You should see this in your Consul agent monitor when the health-check scripts a
 You will see something like these warnings logged when the health-check script interrogates the hazelcast port and does nothing. You are free to monitor the services any way you wish, or not at all by omitting the `healthCheckScript` JSON property; see [See hazelcast-consul-discovery-spi-example.xml](src/main/resources/hazelcast-consul-discovery-spi-example.xml) for an example.
 ```
 Nov 20, 2015 6:57:50 PM com.hazelcast.nio.tcp.SocketAcceptorThread
-INFO: [192.168.0.208]:5701 [hazelcast-consul-discovery] [3.6-RC1] Accepting socket connection from /192.168.0.208:53495
+INFO: [192.168.0.208]:5701 [hazelcast-consul-discovery] [3.6] Accepting socket connection from /192.168.0.208:53495
 Nov 20, 2015 6:57:50 PM com.hazelcast.nio.tcp.TcpIpConnectionManager
-INFO: [192.168.0.208]:5701 [hazelcast-consul-discovery] [3.6-RC1] Established socket connection between /192.168.0.208:5701 and /192.168.0.208:53495
+INFO: [192.168.0.208]:5701 [hazelcast-consul-discovery] [3.6] Established socket connection between /192.168.0.208:5701 and /192.168.0.208:53495
 Nov 20, 2015 6:57:50 PM com.hazelcast.nio.tcp.nonblocking.NonBlockingSocketWriter
-WARNING: [192.168.0.208]:5701 [hazelcast-consul-discovery] [3.6-RC1] SocketWriter is not set, creating SocketWriter with CLUSTER protocol!
+WARNING: [192.168.0.208]:5701 [hazelcast-consul-discovery] [3.6] SocketWriter is not set, creating SocketWriter with CLUSTER protocol!
 Nov 20, 2015 6:57:50 PM com.hazelcast.nio.tcp.TcpIpConnection
-INFO: [192.168.0.208]:5701 [hazelcast-consul-discovery] [3.6-RC1] Connection [/192.168.0.208:53495] lost. Reason: java.io.EOFException[Could not read protocol type!]
+INFO: [192.168.0.208]:5701 [hazelcast-consul-discovery] [3.6] Connection [/192.168.0.208:53495] lost. Reason: java.io.EOFException[Could not read protocol type!]
 ```
