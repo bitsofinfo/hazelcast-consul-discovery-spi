@@ -50,7 +50,7 @@ repositories {
 }
 
 dependencies {
-	compile 'org.bitsofinfo:hazelcast-consul-discovery-spi:1.0-RC2'
+	compile 'org.bitsofinfo:hazelcast-consul-discovery-spi:1.0-RC3'
 
     // include your preferred javax.ws.rs-api implementation
     // (for the OrbitzWorldwide/consul-client dependency)
@@ -67,7 +67,7 @@ dependencies {
     <dependency>
         <groupId>org.bitsofinfo</groupId>
         <artifactId>hazelcast-consul-discovery-spi</artifactId>
-        <version>1.0-RC2</version>
+        <version>1.0-RC3</version>
     </dependency>
 
     <!-- include your preferred javax.ws.rs-api
