@@ -46,8 +46,11 @@ public class ConsulClientBuilder implements ConsulBuilder {
 			
 			//If SSL is enabled via xml configuration, then we use SSL context to build our client
 			if(consulSslEnabled){
-				consulBuilder.withUrl("https://"+consulHost+":"+consulPort)
-				 			 .withSslContext(getSSLContext(consulSslServerCertFilePath, consulSslServerCertBase64));
+				consulBuilder.withUrl("https://"+consulHost+":"+consulPort);
+				
+				if(consulSslServerCertFilePath != null || consulSslServerCertBase64 != null) {
+					consulBuilder.withSslContext(getSSLContext(consulSslServerCertFilePath, consulSslServerCertBase64));
+				}
 				
 				if(!consulServerHostnameVerify){
 					//We don't want verify host name, so we will mark host name as verified
