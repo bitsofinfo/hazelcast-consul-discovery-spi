@@ -41,7 +41,7 @@ public class ScriptHealthCheckBuilder implements HealthCheckBuilder {
 				
 				Long healthCheckScriptIntervalSeconds = Long.valueOf((Integer)registratorConfig.get(CONFIG_PROP_HEALTH_CHECK_SCRIPT_INTERVAL_SECONDS));
 				String healthCheckScript = rawScript.replaceAll(HEALTH_SCRIPT_TEMPLATE_MYIP, localAddress.getInetAddress().getHostAddress())
-												  .replaceAll(HEALTH_SCRIPT_TEMPLATE_MYPORT, String.valueOf(localAddress.getPort()));
+												    .replaceAll(HEALTH_SCRIPT_TEMPLATE_MYPORT, String.valueOf(localAddress.getPort()));
 			
 				regCheck = Registration.RegCheck.script(healthCheckScript, healthCheckScriptIntervalSeconds);
 			}

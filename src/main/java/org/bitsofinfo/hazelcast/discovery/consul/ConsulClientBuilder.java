@@ -45,14 +45,14 @@ public class ConsulClientBuilder implements ConsulBuilder {
 			Builder consulBuilder = Consul.builder();
 			
 			//If SSL is enabled via xml configuration, then we use SSL context to build our client
-			if(consulSslEnabled){
+			if (consulSslEnabled) {
 				consulBuilder.withUrl("https://"+consulHost+":"+consulPort);
 				
-				if(consulSslServerCertFilePath != null || consulSslServerCertBase64 != null) {
+				if (consulSslServerCertFilePath != null || consulSslServerCertBase64 != null) {
 					consulBuilder.withSslContext(getSSLContext(consulSslServerCertFilePath, consulSslServerCertBase64));
 				}
 				
-				if(!consulServerHostnameVerify){
+				if (!consulServerHostnameVerify) {
 					//We don't want verify host name, so we will mark host name as verified
 					consulBuilder.withClientBuilder(ClientBuilder.newBuilder().hostnameVerifier(new HostnameVerifier() {
 					            public boolean verify(String s, SSLSession sslSession) {
@@ -60,7 +60,7 @@ public class ConsulClientBuilder implements ConsulBuilder {
 					            }
 					        }));
 				}
-			}else{
+			} else {
 				//Normal http without TLS
 				consulBuilder.withHostAndPort(
 						HostAndPort.fromParts(consulHost, consulPort));
@@ -70,7 +70,7 @@ public class ConsulClientBuilder implements ConsulBuilder {
 			
 			return consul;
 		
-		}catch(Exception e){
+		}catch(Exception e) {
 			
 			logger.severe("Unexpected Error occured while buildConsul() - " + e.getMessage(), e);
 			throw(e);
@@ -117,7 +117,7 @@ public class ConsulClientBuilder implements ConsulBuilder {
 			
 			return sslContext;
 			
-		}catch(Exception e){
+		} catch(Exception e) {
 			
 			logger.severe("Unexpected Error getSSLContext() - " + e.getMessage(), e);
 			throw(e);

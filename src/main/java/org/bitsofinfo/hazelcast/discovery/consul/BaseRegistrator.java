@@ -31,6 +31,11 @@ import com.orbitz.consul.model.agent.Registration.RegCheck;
  *	                      Variables #MYIP/#MYPORT will be replaced. https://www.consul.io/docs/agent/checks.html 
  *	                      
  *	 - healthCheckScriptIntervalSeconds: self explanatory
+ *
+ *  - healthCheckHttp: valid hostname and port to use for health check. You can provide optional
+ *   			       path to a specific script.
+ *   
+ *   - healthCheckHttpIntervalSeconds: self explanatory
  *   			           		
  * 
  * @author bitsofinfo

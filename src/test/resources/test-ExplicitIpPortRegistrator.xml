@@ -55,7 +55,7 @@
                                                                         "healthCheckProvider":"${consulHealthCheckProvider}",
                                                                         "healthCheckScript":"exec 6<>/dev/tcp/#MYIP/#MYPORT || (exit 3)",
                                                                         "healthCheckScriptIntervalSeconds":30,
-                                                                        "healthCheckHttp":"http://www.google.com:80",
+                                                                        "healthCheckHttp":"http://some.endpoint.on.this.app:80",
 																		"healthCheckHttpIntervalSeconds":30
                                                                       }
                                                                   ]]></property>

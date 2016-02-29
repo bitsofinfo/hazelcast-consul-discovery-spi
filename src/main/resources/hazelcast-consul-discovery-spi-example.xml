@@ -95,13 +95,13 @@
                       
                       
                       <!-- 
-                      		If you want to enable TLS, you can set this option to "true". If you enable TLS, 
-                      		then the "consul-port" property above needs to be set to the correct https port 
-                      		that is configured on the Consul server.
+                      	If you want to enable TLS, you can set this option to "true". If you enable TLS, 
+                      	then the "consul-port" property above needs to be set to the correct https port 
+                      	that is configured on the Consul server.
                       		
-                      		OPTIONALLY: In addition, either "consul-ssl-server-cert-file-path" or "consul-ssl-server-cert-base64" 
-                      		properties below would have to be provided if TLS is enabled and your consul server(s) present
-                      		a self-signed non-JRE trusted certificate.
+                      	OPTIONALLY: In addition, either "consul-ssl-server-cert-file-path" or "consul-ssl-server-cert-base64" 
+                      	properties below would have to be provided if TLS is enabled and your consul server(s) present
+                      	a self-signed non-JRE trusted certificate.
                       
                        -->
                        
@@ -109,38 +109,40 @@
                       
                       
                       <!-- 
-                      		Path to a self signed CA cert file that will be used if TLS is enabled. You need to
-                      		provide the full path to the certificate file. You can alternatively provide the 
-                      		"consul-ssl-server-cert-base64" property below.
+                      
+                      	OPTIONAL: only necessary if your consul server presents a self-signed certificate 
+					  
+                    	Path to a self signed CA cert file that will be used if TLS is enabled. You need to
+                    	provide the full path to the certificate file. You can alternatively provide the 
+                    	"consul-ssl-server-cert-base64" property below.
                       
                        -->
        
-			  <property name="consul-ssl-server-cert-file-path">/path/to/ca.cert</property>
+			  		  <property name="consul-ssl-server-cert-file-path">/path/to/ca.cert</property>
 			  
 			  
-			  <!-- 
-			    OPTIONAL: only necessary if your consul server presents a self-signed certificate 
-			    
-			    A base64 encoded CA cert string that can be used for TLS connection. You can alternatively
-			    provide the "consul-ssl-server-cert-file-path" property above.
-			  
-			   -->
-			   
-			  <property name="consul-ssl-server-cert-base64"></property>
-			  
-			  
-			  <!-- 
-			   OPTIONAL: only necessary if your consul server presents a self-signed certificate 
-			  
-			   If this set to false, it will override the hostnameVerifier to be used by the client to verify 
-			   the endpoint's hostname against it's identification information and always mark it as verified.
-			  		
-			   You can set this to true, to use the default hostnameVerifier that will strict match the endpoint's 
-			   hostname against the client identification.
-			  
-			   -->
-			   
-			  <property name="consul-ssl-server-hostname-verify">false</property>
+					  <!-- 
+					    OPTIONAL: only necessary if your consul server presents a self-signed certificate 
+					    
+					    A base64 encoded CA cert string that can be used for TLS connection. You can alternatively
+					    provide the "consul-ssl-server-cert-file-path" property above.
+					  
+					   -->
+				
+					  <property name="consul-ssl-server-cert-base64"></property>
+					  
+					  
+					  <!-- 
+					  
+					   If this set to false, it will override the hostnameVerifier to be used by the client to verify 
+					   the endpoint's hostname against it's identification information and always mark it as verified.
+					  		
+					   You can set this to true, to use the default hostnameVerifier that will strict match the endpoint's 
+					   hostname against the client identification.
+					  
+					   -->
+					   
+					  <property name="consul-ssl-server-hostname-verify">false</property>
 					  
 					  
                       <!-- 
@@ -173,17 +175,24 @@
                                     - preferPublicAddress (true|false) : use the public IP determined by
                                                                          hazelcast (if not null) over the private IP
                                                 
-                                    - healthCheckProvider: the type of health check to use (script or http). It defaults to "script" if 
-                                    			   this property is not provided.            
-                                                                          
+                                    - healthCheckProvider: the type of health check to use (script or http). 
+                                                           It defaults to "org.bitsofinfo.hazelcast.discovery.consul.ScriptHealthCheckBuilder" if 
+                                    			           this property is not provided.            
+                                                       
+                                                       
+                                    Properties consumed by: org.bitsofinfo.hazelcast.discovery.consul.ScriptHealthCheckBuilder
+                                                                         
                                     - healthCheckScript: can be anything you want Consul to do to determine health. 
                                                          Variables #MYIP/#MYPORT will be replaced with this node's IP/PORT
                                                          @see https://www.consul.io/docs/agent/checks.html
                                                          
                                     - healthCheckScriptIntervalSeconds: self explanatory
                                     
+                                    
+                                    Properties consumed by: org.bitsofinfo.hazelcast.discovery.consul.HttpHealthCheckBuilder
+                                    
                                     - healthCheckHttp: valid hostname and port to use for health check. You can provide optional
-                                    			path to a specific script.
+                                    			       path to a specific script.
                                     
                                     - healthCheckHttpIntervalSeconds: self explanatory
                      -->
@@ -206,20 +215,29 @@
                                     
                                     - registerWithPort: register with this PORT in Consul
                                                            
-                                    - healthCheckProvider: the type of health check to use (script or http). It defaults to "script" if 
-                         							   this property is not provided.            
-                                                   
+                                    - healthCheckProvider: the type of health check to use (script or http). 
+                                                           It defaults to "org.bitsofinfo.hazelcast.discovery.consul.ScriptHealthCheckBuilder" if 
+                                    			           this property is not provided.            
+                                                       
+                                                       
+                                    Properties consumed by: org.bitsofinfo.hazelcast.discovery.consul.ScriptHealthCheckBuilder
+                                                                         
                                     - healthCheckScript: can be anything you want Consul to do to determine health. 
                                                          Variables #MYIP/#MYPORT will be replaced with this node's IP/PORT
                                                          @see https://www.consul.io/docs/agent/checks.html
                                                          
                                     - healthCheckScriptIntervalSeconds: self explanatory
-                     
-                     				- healthCheckScriptIntervalSeconds: self explanatory
+                                    
+                                    
+                                    Properties consumed by: org.bitsofinfo.hazelcast.discovery.consul.HttpHealthCheckBuilder
                                     
                                     - healthCheckHttp: valid hostname and port to use for health check. You can provide optional
-                                    				   path to a specific script.
-                                    				   
+                                    			       path to a specific script. Variables #MYIP/#MYPORT will be replaced with 
+                                    			       this node's IP/PORT (port being hazelcast port, but you likely would not
+                                    			       want to use that for an http check)
+                                    
+                                    - healthCheckHttpIntervalSeconds: self explanatory
+                     -->
                       <property name="consul-registrator-config"><![CDATA[
                                                                       {
                                                                         "registerWithIpAddress":"192.168.0.208",
@@ -227,7 +245,7 @@
                                                                         "healthCheckProvider":"org.bitsofinfo.hazelcast.discovery.consul.HttpHealthCheckBuilder",
                                                                         "healthCheckScript":"exec 6<>/dev/tcp/#MYIP/#MYPORT || (exit 3)",
                                                                         "healthCheckScriptIntervalSeconds":30,
-                                                                        "healthCheckHttp":"http://some.endpoint.on.this.hz.app:80",
+                                                                        "healthCheckHttp":"http://#MYIP:80",
 																		"healthCheckHttpIntervalSeconds":30
                                                                       }
                                                                   ]]></property>

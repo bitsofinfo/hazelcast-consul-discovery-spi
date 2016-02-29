@@ -15,6 +15,10 @@ import com.orbitz.consul.model.agent.Registration.RegCheck;
  *
  */
 public class HttpHealthCheckBuilder implements HealthCheckBuilder {
+	
+	// variables for http template support
+	private static final String HTTP_TEMPLATE_MYPORT = "#MYPORT";
+	private static final String HTTP_TEMPLATE_MYIP = "#MYIP";
 
 	public static final String CONFIG_PROP_HEALTH_CHECK_HTTP = "healthCheckHttp";
 	public static final String CONFIG_PROP_HEALTH_CHECK_HTTP_INTERVAL_SECONDS = "healthCheckHttpIntervalSeconds";
@@ -33,6 +37,9 @@ public class HttpHealthCheckBuilder implements HealthCheckBuilder {
 			String healthCheckHttp = (String)registratorConfig.get(CONFIG_PROP_HEALTH_CHECK_HTTP);
 			
 			if (healthCheckHttp != null && !healthCheckHttp.trim().isEmpty()) {
+				
+				healthCheckHttp = healthCheckHttp.replaceAll(HTTP_TEMPLATE_MYIP, localAddress.getInetAddress().getHostAddress())
+						  						 .replaceAll(HTTP_TEMPLATE_MYPORT, String.valueOf(localAddress.getPort()));
 				
 				Long healthCheckHttpIntervalSeconds = Long.valueOf((Integer)registratorConfig.get(CONFIG_PROP_HEALTH_CHECK_HTTP_INTERVAL_SECONDS));
 				regCheck = Registration.RegCheck.http(healthCheckHttp, healthCheckHttpIntervalSeconds);

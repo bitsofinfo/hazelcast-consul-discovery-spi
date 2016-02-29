@@ -42,9 +42,6 @@
                       <property name="consul-discovery-delay-ms">0</property>
                       
                       <property name="consul-ssl-enabled">false</property>
-					  <property name="consul-ssl-server-cert-file-path">/path/to/ca.cert</property>
-					  <property name="consul-ssl-server-cert-base64"></property>
-					  <property name="consul-ssl-server-hostname-verify">false</property>
 
                       <property name="consul-registrator">org.bitsofinfo.hazelcast.discovery.consul.DoNothingRegistrator</property>
                  </properties>
