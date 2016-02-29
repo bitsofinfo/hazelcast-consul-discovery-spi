@@ -52,7 +52,7 @@
                                                                         "healthCheckScript":"exec 6<>/dev/tcp/#MYIP/#MYPORT || (exit 3)",
                                                                         "healthCheckScriptIntervalSeconds":30,
                                                                         "healthCheckHttp":"http://something.on.your.hz.app:80",
-																		"healthCheckHttpIntervalSeconds":30
+									"healthCheckHttpIntervalSeconds":30
                                                                       }
                                                                   ]]></property>
                 
