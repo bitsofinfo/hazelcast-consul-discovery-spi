@@ -15,13 +15,14 @@ public class TestLocalDiscoveryNodeRegistrator extends RegistratorTestBase {
 	 * 
 	 */
 	@Test
-	public void testExplicitIpPortRegistrator() {
+	public void testLocalIpPortRegistrator() {
 		testRegistrator("test-LocalDiscoveryNodeRegistrator.xml","test-LocalDiscoveryNodeRegistrator");
 	}
 
 	@Override
 	protected void preConstructHazelcast(int instanceNumber) {
 		// we do nothing
+		
 	}
 	
 }

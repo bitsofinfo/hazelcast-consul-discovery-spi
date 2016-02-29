@@ -22,8 +22,19 @@ public class DoNothingRegistrator implements ConsulRegistrator {
 	}
 
 	@Override
-	public void init(String consulHost, Integer consulPort, String consulServiceName, String[] consulServiceTags, DiscoveryNode localDiscoveryNode,
-			Map<String, Object> registratorConfig, ILogger logger) {
+	public void init(
+			String consulHost, 
+			Integer consulPort, 
+			String consulServiceName, 
+			String[] consulServiceTags, 
+			String consulAclToken,  
+			boolean consulSslEnabled,
+			String	consulSslServerCertFilePath,
+			String consulSslServerCertBase64,
+			boolean consulServerHostnameVerify,
+			DiscoveryNode localDiscoveryNode,
+			Map<String, Object> registratorConfig, 
+			ILogger logger) {
 
 	}
 
