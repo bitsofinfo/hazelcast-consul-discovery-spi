@@ -26,6 +26,8 @@ This is beta code, tested against Hazelcast 3.6-EA+ through 3.6 Stable releases.
 
 * MASTER - in progress, this README refers to what is in the master tag. Switch to relevant RELEASE tag above to see that versions README
 
+* [1.0-RC3](https://github.com/bitsofinfo/hazelcast-consul-discovery-spi/releases/tag/1.0-RC3): Adds support for TLS [#2](https://github.com/bitsofinfo/hazelcast-consul-discovery-spi/issues/2) and Consul ACLs [#4](https://github.com/bitsofinfo/hazelcast-consul-discovery-spi/issues/4) Tested against Hazelcast 3.6-EA+ through 3.6 Stable releases
+
 * [1.0-RC2](https://github.com/bitsofinfo/hazelcast-consul-discovery-spi/releases/tag/1.0-RC2): Tested against Hazelcast 3.6-EA+ through 3.6 Stable releases
 
 * [1.0-RC1](https://github.com/bitsofinfo/hazelcast-consul-discovery-spi/releases/tag/1.0-RC1): Tested against Hazelcast 3.6-EA+ through 3.6-RC1 Stable releases
