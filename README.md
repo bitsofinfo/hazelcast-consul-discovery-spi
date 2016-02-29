@@ -23,8 +23,8 @@ This is an easy to configure plug-and-play Hazlecast DiscoveryStrategy that will
 This is beta code, tested against Hazelcast 3.6-EA+ through 3.6 Stable releases.
 
 ## <a id="releases"></a>Releases
-
 * [1.0-RC1](https://github.com/bitsofinfo/hazelcast-consul-discovery-spi/releases/tag/1.0-RC1): Tested against Hazelcast 3.6-EA+ through 3.6 Stable releases
+* [1.0-RC2](https://github.com/bitsofinfo/hazelcast-consul-discovery-spi/releases/tag/1.0-RC2): Tested against Hazelcast 3.6-EA+ through 3.6 Stable releases
 
 ## <a id="requirements"></a>Requirements
 
@@ -127,16 +127,26 @@ consul agent -server -bootstrap-expect 1 -data-dir /tmp/consul -config-dir /path
 
          <properties>
               <property name="consul-host">localhost</property>
-		      <property name="consul-port">8500</property>
-		      <property name="consul-service-name">hz-discovery-test-cluster</property>
+              <property name="consul-port">8500</property>
+              <property name="consul-service-name">hz-discovery-test-cluster</property>
+              <property name="consul-healthy-only">true</property>
+              <property name="consul-service-tags">hazelcast, test1</property>
+              <property name="consul-discovery-delay-ms">10000</property>
+
+              <property name="consul-acl-token"></property>
+              <property name="consul-ssl-enabled">false</property>
+              <property name="consul-ssl-server-cert-file-path"></property>
+              <property name="consul-ssl-server-cert-base64"></property>
+              <property name="consul-ssl-server-hostname-verify">true</property>
+
               <property name="consul-registrator">org.bitsofinfo.hazelcast.discovery.consul.LocalDiscoveryNodeRegistrator</property>
-		      <property name="consul-registrator-config"><![CDATA[
-					{
-					  "preferPublicAddress":false,
-					  "healthCheckScript":"exec 6<>/dev/tcp/#MYIP/#MYPORT || (exit 3)",
-					  "healthCheckScriptIntervalSeconds":30
-					}
-              ]]></property>
+              <property name="consul-registrator-config"><![CDATA[
+    					{
+    					  "preferPublicAddress":false,
+    					  "healthCheckScript":"exec 6<>/dev/tcp/#MYIP/#MYPORT || (exit 3)",
+    					  "healthCheckScriptIntervalSeconds":30
+    					}
+                  ]]></property>
         </properties>
       </discovery-strategy>
     </discovery-strategies>
@@ -237,14 +247,28 @@ org.bitsofinfo.hazelcast.discovery.consul.TestDoNothingRegistrator > testDoNothi
     java.lang.AssertionError at TestDoNothingRegistrator.java:85
 ```
 
-To run individual unit-test, use the `test.single` argument to provide the unit-test you would like to run. The command below runs the unit test for `TestDoNothingRegistrator`
+To run individual unit-test, use the `unitTest.single` argument to provide the unit-test you would like to run. The command below runs the unit test for `TestDoNothingRegistrator`
 
 ```
-$ ./gradlew test -Dtest.single=TestDoNothingRegistrator
+$ ./gradlew -DunitTest.single=TestDoNothingRegistrator unitTest
 ```
 
 ##### Note on running `TestDoNothingRegistrator` unit-test
-The `TestDoNothingRegistrator` unit-test should be run separately using the `test.single` argument as demonstrated above as it requires you to register a service with your local consul with 5 nodes/instances. Please **CAREFULLY READ** the comments in `TestDoNothingRegistrator.java` to see how this test should be run.
+The `TestDoNothingRegistrator` unit-test should be run separately using the `unitTest.single` argument as demonstrated above as it requires you to register a service with your local consul with 5 nodes/instances. Please **CAREFULLY READ** the comments in `TestDoNothingRegistrator.java` to see how this test should be run.
+
+##### Passing optional parameters to unit-tests
+The following parameters can be passed with the `-D` option when invoking the tests
+```
+-DconsulPort=(some port)
+-DconsulHost=(some host)
+-DconsulAclToken=(some ACL token if the server requires it)
+-DconsulSslEnabled=(true | false)
+-DconsulSslServerCertFilePath=(/path/to/ca.cert)
+-DconsulSslServerCertBase64=(base64 encoded cert string)
+-DconsulSslServerHostnameVerify=(false|True)
+-DconsulHealthCheckProvider=(org.bitsofinfo.hazelcast.discovery.consul.ScriptHealthCheckBuilder | org.bitsofinfo.hazelcast.discovery.consul.HttpHealthCheckBuilder)
+
+```
 
 ## <a id="related"></a>Related info
 

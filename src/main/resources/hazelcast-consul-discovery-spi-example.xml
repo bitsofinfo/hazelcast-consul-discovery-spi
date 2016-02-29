@@ -69,7 +69,75 @@
                        -->
                       <property name="consul-discovery-delay-ms">10000</property>
                       
+                                            
+                      <!-- 
+                      		An optional Access Control List (ACL) token that can be used to control access to data and API.
+                      		this is passed as query parameter (token) when using Consul clients. You can use the uuidgen to 
+                      		pre-generate the UUID on any *nix machines and create the ACL by providing that in the ID field of
+                      		the json body of the ACL create request. If you don't provide an ID, then a random generated UUID will
+                      		be returned in the response, which you can use here.
+                      		@see https://www.consul.io/docs/agent/http/acl.html#acl_create
+                      		
+                      		You would also need a acl_master_token setup on your server configuration json, or create a management token
+                      		using the acl/create API above using "type":"management" in the body of the json to get a new acl_master_token
+                      		UUID.
+                      		
+                      		Once you have the acl_master_token, you can create a client token using the following curl command for example,
+                      		that creates an acl_token of type: client that gives read and write permission to all services:
+                      		
+                      		curl -X PUT -d @client_acl.json "http://localhost:8500/v1/acl/create?token=D4289F4C-19C1-4A9B-AC7A-A46D9CFA78BF&pretty=true";echo
+                      		
+                      		You can find the client_acl.json under docs/sample_data folder
+                      	
+                       -->
                       
+                      <property name="consul-acl-token">761F2179-0479-445A-9E75-68E63AEE8816</property>
+                      
+                      
+                      <!-- 
+                      		If you want to enable TLS, you can set this option to "true". If you enable TLS, 
+                      		then the "consul-port" property above needs to be set to the correct https port 
+                      		that is configured on the Consul server.
+                      		
+                      		In addition, either "consul-ssl-server-cert-file-path" or "consul-ssl-server-cert-base64" 
+                      		properties below would have to be provided if TLS is enabled. 
+                      
+                       -->
+                       
+                      <property name="consul-ssl-enabled">false</property>
+                      
+                      
+                      <!-- 
+                      		Path to a self signed CA cert file that will be used if TLS is enabled. You need to
+                      		provide the full path to the certificate file. You can alternatively provide the 
+                      		"consul-ssl-server-cert-base64" property below.
+                      
+                       -->
+                       
+					  <property name="consul-ssl-server-cert-file-path">/path/to/ca.cert</property>
+					  
+					  
+					  <!-- 
+					  		A base64 encoded CA cert string that can be used for TLS connection. You can alternatively
+					  		provide the "consul-ssl-server-cert-file-path" property above.
+					  
+					   -->
+					   
+					  <property name="consul-ssl-server-cert-base64"></property>
+					  
+					  
+					  <!-- 
+					  		If this set to false, it will override the hostnameVerifier to be used by the client to verify 
+					  		the endpoint's hostname against it's identification information and always mark it as verified.
+					  		
+					  		You can set this to true, to use the default hostnameVerifier that will strict match the endpoint's 
+					  		hostname against the client identification.
+					  
+					   -->
+					   
+					  <property name="consul-ssl-server-hostname-verify">false</property>
+					  
+					  
                       <!-- 
                             ConsulRegistrator: 
                             
@@ -99,18 +167,29 @@
                            
                                     - preferPublicAddress (true|false) : use the public IP determined by
                                                                          hazelcast (if not null) over the private IP
+                                                
+                                    - healthCheckProvider: the type of health check to use (script or http). It defaults to "script" if 
+                                    				   this property is not provided.            
                                                                           
                                     - healthCheckScript: can be anything you want Consul to do to determine health. 
                                                          Variables #MYIP/#MYPORT will be replaced with this node's IP/PORT
                                                          @see https://www.consul.io/docs/agent/checks.html
                                                          
                                     - healthCheckScriptIntervalSeconds: self explanatory
+                                    
+                                    - healthCheckHttp: valid hostname and port to use for health check. You can provide optional
+                                    				   path to a specific script.
+                                    
+                                    - healthCheckHttpIntervalSeconds: self explanatory
                      -->
                       <property name="consul-registrator-config"><![CDATA[
                                                                       {
-                                                                        "preferPublicAddress":false, 
+                                                                        "preferPublicAddress":false,
+                                                                        "healthCheckProvider":"org.bitsofinfo.hazelcast.discovery.consul.ScriptHealthCheckBuilder",
                                                                         "healthCheckScript":"exec 6<>/dev/tcp/#MYIP/#MYPORT || (exit 3)",
-                                                                        "healthCheckScriptIntervalSeconds":30
+                                                                        "healthCheckScriptIntervalSeconds":30,
+                                                                        "healthCheckHttp":"http://www.google.com:80",
+																		"healthCheckHttpIntervalSeconds":30
                                                                       }
                                                                   ]]></property>
                                                                   
@@ -121,19 +200,30 @@
                                     - registerWithIpAddress: register with this IP in Consul
                                     
                                     - registerWithPort: register with this PORT in Consul
-                                                                          
+                                                           
+                                    - healthCheckProvider: the type of health check to use (script or http). It defaults to "script" if 
+                         							   this property is not provided.            
+                                                   
                                     - healthCheckScript: can be anything you want Consul to do to determine health. 
                                                          Variables #MYIP/#MYPORT will be replaced with this node's IP/PORT
                                                          @see https://www.consul.io/docs/agent/checks.html
                                                          
                                     - healthCheckScriptIntervalSeconds: self explanatory
                      
+                     				- healthCheckScriptIntervalSeconds: self explanatory
+                                    
+                                    - healthCheckHttp: valid hostname and port to use for health check. You can provide optional
+                                    				   path to a specific script.
+                                    				   
                       <property name="consul-registrator-config"><![CDATA[
                                                                       {
                                                                         "registerWithIpAddress":"192.168.0.208",
                                                                         "registerWithPort":5701, 
+                                                                        "healthCheckProvider":"org.bitsofinfo.hazelcast.discovery.consul.HttpHealthCheckBuilder",
                                                                         "healthCheckScript":"exec 6<>/dev/tcp/#MYIP/#MYPORT || (exit 3)",
-                                                                        "healthCheckScriptIntervalSeconds":30
+                                                                        "healthCheckScriptIntervalSeconds":30,
+                                                                        "healthCheckHttp":"http://www.google.com:80",
+																		"healthCheckHttpIntervalSeconds":30
                                                                       }
                                                                   ]]></property>
                      -->

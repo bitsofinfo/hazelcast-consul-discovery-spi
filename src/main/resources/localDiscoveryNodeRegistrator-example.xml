@@ -33,12 +33,22 @@
                       <property name="consul-healthy-only">true</property>
                       <property name="consul-service-tags">hazelcast,test1</property>
                       <property name="consul-discovery-delay-ms">10000</property>
+                      
+                      <property name="consul-acl-token">761F2179-0479-445A-9E75-68E63AEE8816</property>
+                      <property name="consul-ssl-enabled">false</property>
+					  <property name="consul-ssl-server-cert-file-path">/path/to/ca.cert</property>
+					  <property name="consul-ssl-server-cert-base64"></property>
+					  <property name="consul-ssl-server-hostname-verify">false</property>
+					  
                       <property name="consul-registrator">org.bitsofinfo.hazelcast.discovery.consul.LocalDiscoveryNodeRegistrator</property>
                       <property name="consul-registrator-config"><![CDATA[
                                                                       {
                                                                         "preferPublicAddress":false, 
+                                                                        "healthCheckProvider":"org.bitsofinfo.hazelcast.discovery.consul.ScriptHealthCheckBuilder",
                                                                         "healthCheckScript":"exec 6<>/dev/tcp/#MYIP/#MYPORT || (exit 3)",
-                                                                        "healthCheckScriptIntervalSeconds":30
+                                                                        "healthCheckScriptIntervalSeconds":30,
+                                                                        "healthCheckHttp":"http://www.google.com:80",
+																		"healthCheckHttpIntervalSeconds":30
                                                                       }
                                                                   ]]></property>
                                                                   

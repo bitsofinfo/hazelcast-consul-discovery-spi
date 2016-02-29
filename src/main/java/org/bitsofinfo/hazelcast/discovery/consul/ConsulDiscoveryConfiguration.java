@@ -36,5 +36,19 @@ public class ConsulDiscoveryConfiguration {
 	public static final PropertyDefinition CONSUL_DISCOVERY_DELAY_MS = 
 			new SimplePropertyDefinition("consul-discovery-delay-ms", PropertyTypeConverter.INTEGER);
 	
+	public static final PropertyDefinition CONSUL_ACL_TOKEN = 
+			new SimplePropertyDefinition("consul-acl-token", PropertyTypeConverter.STRING);
+	
+	public static final PropertyDefinition CONSUL_SSL_ENABLED = 
+			new SimplePropertyDefinition("consul-ssl-enabled", PropertyTypeConverter.BOOLEAN);
+	
+	public static final PropertyDefinition CONSUL_SSL_SERVER_CERT_FILE_PATH = 
+			new SimplePropertyDefinition("consul-ssl-server-cert-file-path", PropertyTypeConverter.STRING);
+	
+	public static final PropertyDefinition CONSUL_SSL_SERVER_CERT_BASE64 = 
+			new SimplePropertyDefinition("consul-ssl-server-cert-base64", PropertyTypeConverter.STRING);
+	
+	public static final PropertyDefinition CONSUL_SSL_SERVER_HOSTNAME_VERIFY = 
+			new SimplePropertyDefinition("consul-ssl-server-hostname-verify", PropertyTypeConverter.BOOLEAN);
 
 }

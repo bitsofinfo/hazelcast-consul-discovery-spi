@@ -1,0 +1,1 @@
+{"ID": "761F2179-0479-445A-9E75-68E63AEE8816","Name": "client-discovery-strategy", "Type":"client", "Rules": "{\"service\": {\"\": {\"policy\": \"write\"}}}"}

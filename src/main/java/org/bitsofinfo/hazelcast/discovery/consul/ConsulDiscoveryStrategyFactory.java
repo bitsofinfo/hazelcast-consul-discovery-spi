@@ -21,7 +21,12 @@ public class ConsulDiscoveryStrategyFactory implements DiscoveryStrategyFactory 
 						ConsulDiscoveryConfiguration.CONSUL_SERVICE_TAGS,
 						ConsulDiscoveryConfiguration.CONSUL_REGISTRATOR,
 						ConsulDiscoveryConfiguration.CONSUL_REGISTRATOR_CONFIG,
-						ConsulDiscoveryConfiguration.CONSUL_DISCOVERY_DELAY_MS
+						ConsulDiscoveryConfiguration.CONSUL_DISCOVERY_DELAY_MS,
+						ConsulDiscoveryConfiguration.CONSUL_ACL_TOKEN,
+						ConsulDiscoveryConfiguration.CONSUL_SSL_ENABLED,
+						ConsulDiscoveryConfiguration.CONSUL_SSL_SERVER_CERT_FILE_PATH,
+						ConsulDiscoveryConfiguration.CONSUL_SSL_SERVER_CERT_BASE64,
+						ConsulDiscoveryConfiguration.CONSUL_SSL_SERVER_HOSTNAME_VERIFY
 					});
 
 	public Class<? extends DiscoveryStrategy> getDiscoveryStrategyType() {
