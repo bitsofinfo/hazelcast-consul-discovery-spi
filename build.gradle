@@ -79,11 +79,49 @@ task runTests(type: Test) {
   		false 
   	}
 	
+	systemProperties = [
+  			consulHost: System.getProperty('consulHost', 'localhost'),
+            consulPort: System.getProperty('consulPort', '8500'),
+            consulAclToken: System.getProperty('consulAclToken', ''),
+            consulSslEnabled: System.getProperty('consulSslEnabled', 'false'),
+            consulSslServerCertFilePath: System.getProperty('consulSslServerCertFilePath', ''),
+            consulSslServerCertBase64: System.getProperty('consulSslServerCertBase64', ''),
+            consulSslServerHostnameVerify: System.getProperty('consulSslServerHostnameVerify', 'true'),
+            consulHealthCheckProvider: System.getProperty('consulHealthCheckProvider', 'org.bitsofinfo.hazelcast.discovery.consul.ScriptHealthCheckBuilder')
+    ]
+    
 	//Exclude TestDoNothingRegistrator test because it requires special setup 
     exclude "**/TestDoNothingRegistrator.class"
 }
 
+task unitTest(type: Test) {
+	description 'Runs unit tests for single class.'
+  	
+  	//Always run tests even when up-to-date 
+  	outputs.upToDateWhen { 
+  		false 
+  	}
+  	
+  	systemProperties = [
+  			consulHost: System.getProperty('consulHost', 'localhost'),
+            consulPort: System.getProperty('consulPort', '8500'),
+            consulAclToken: System.getProperty('consulAclToken', ''),
+            consulSslEnabled: System.getProperty('consulSslEnabled', 'false'),
+            consulSslServerCertFilePath: System.getProperty('consulSslServerCertFilePath', ''),
+            consulSslServerCertBase64: System.getProperty('consulSslServerCertBase64', ''),
+            consulSslServerHostnameVerify: System.getProperty('consulSslServerHostnameVerify', 'true'),
+            consulHealthCheckProvider: System.getProperty('consulHealthCheckProvider', 'org.bitsofinfo.hazelcast.discovery.consul.ScriptHealthCheckBuilder')
+    ]
+}
+
 runTests {
+    testLogging {
+        // Show that tests are run in the command-line output
+        events 'started', 'passed'
+    }
+}
+
+unitTest {
     testLogging {
         // Show that tests are run in the command-line output
         events 'started', 'passed'

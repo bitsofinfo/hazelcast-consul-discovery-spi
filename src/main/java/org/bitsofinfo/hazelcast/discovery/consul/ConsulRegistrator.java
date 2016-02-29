@@ -29,6 +29,11 @@ public interface ConsulRegistrator {
 	 * @param consulPort
 	 * @param consulServiceName
 	 * @param consulTags
+	 * @param consulAclToken
+	 * @param consulSslEnabled
+	 * @param consulSslServerCertFilePath
+	 * @param consulSslServerCertBase64
+	 * @param consulServerHostnameVerify
 	 * @param localDiscoveryNode
 	 * @param registratorConfig
 	 * @param logger
@@ -38,6 +43,11 @@ public interface ConsulRegistrator {
 			         Integer consulPort,
 			         String consulServiceName,
 			         String[] consulTags,
+			         String consulAclToken,
+			         boolean consulSslEnabled,
+					 String	consulSslServerCertFilePath,
+					 String consulSslServerCertBase64,
+					 boolean consulServerHostnameVerify,
 			         DiscoveryNode localDiscoveryNode,
 			         Map<String, Object> registratorConfig,
 			         ILogger logger) throws Exception;

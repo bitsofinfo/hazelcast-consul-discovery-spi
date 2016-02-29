@@ -1,7 +1,6 @@
 package org.bitsofinfo.hazelcast.discovery.consul;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +8,6 @@ import java.util.Map;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.net.HostAndPort;
 import com.hazelcast.logging.ILogger;
 import com.hazelcast.nio.Address;
 import com.hazelcast.spi.discovery.AbstractDiscoveryStrategy;
@@ -52,6 +50,10 @@ public class ConsulDiscoveryStrategy extends AbstractDiscoveryStrategy implement
 	
 	// we set this to track if discoverNodes was ever invoked
 	private boolean discoverNodesInvoked = false;
+	
+	// ACL token to be used for agent, health and catalog clients
+	private String consulAclToken  = null;
+	
 
 	/**
 	 * Constructor
@@ -71,6 +73,15 @@ public class ConsulDiscoveryStrategy extends AbstractDiscoveryStrategy implement
 		this.consulServiceName = getOrDefault("consul-service-name",  ConsulDiscoveryConfiguration.CONSUL_SERVICE_NAME, "");		
 		this.consulHealthyOnly = getOrDefault("consul-healthy-only",  ConsulDiscoveryConfiguration.CONSUL_HEALTHY_ONLY, true);		
 		long discoveryDelayMS = getOrDefault("consul-discovery-delay-ms",  ConsulDiscoveryConfiguration.CONSUL_DISCOVERY_DELAY_MS, 30000);		
+		this.consulAclToken = getOrDefault("consul-acl-token", ConsulDiscoveryConfiguration.CONSUL_ACL_TOKEN, "");
+		
+		boolean consulSslEnabled = getOrDefault("consul-ssl-enabled", ConsulDiscoveryConfiguration.CONSUL_SSL_ENABLED, false);
+		String consulSslServerCertFilePath = getOrDefault("consul-ssl-server-cert-file-path", ConsulDiscoveryConfiguration.CONSUL_SSL_SERVER_CERT_FILE_PATH, "");
+		String consulSslServerCertBase64 = getOrDefault("consul-ssl-server-cert-base64", ConsulDiscoveryConfiguration.CONSUL_SSL_SERVER_CERT_BASE64, "");
+		boolean consulServerHostnameVerify = getOrDefault("consul-ssl-server-hostname-verify", ConsulDiscoveryConfiguration.CONSUL_SSL_SERVER_HOSTNAME_VERIFY, true);
+		
+		
+		
 		
 		
 		// our ConsulRegistrator default is DoNothingRegistrator
@@ -108,7 +119,18 @@ public class ConsulDiscoveryStrategy extends AbstractDiscoveryStrategy implement
 			
 			logger.info("Using ConsulRegistrator: " + registratorClassName);
 			
-			registrator.init(consulHost, consulPort, consulServiceName, consulServiceTags, localDiscoveryNode, registratorConfig, logger);;
+			registrator.init(consulHost, 
+					consulPort, 
+					consulServiceName, 
+					consulServiceTags, 
+					consulAclToken,
+					consulSslEnabled,
+					consulSslServerCertFilePath,
+					consulSslServerCertBase64,
+					consulServerHostnameVerify,
+					localDiscoveryNode, 
+					registratorConfig, 
+					logger);
 			registrator.register();
 			
 		} catch(Exception e) {
@@ -116,15 +138,24 @@ public class ConsulDiscoveryStrategy extends AbstractDiscoveryStrategy implement
 		}
 
 
-		// build our clients
-		this.consulCatalogClient = Consul.builder().withHostAndPort(
-										HostAndPort.fromParts(consulHost, consulPort))
-									.build().catalogClient();
-		
-		
-		this.consulHealthClient = Consul.builder().withHostAndPort(
-										HostAndPort.fromParts(consulHost, consulPort))
-									.build().healthClient();
+		try{
+					
+			ConsulBuilder builder = ConsulClientBuilder.class.newInstance();
+			Consul consul = builder.buildConsul(consulHost, 
+												consulPort, 
+												consulSslEnabled, 
+												consulSslServerCertFilePath, 
+												consulSslServerCertBase64, 
+												consulServerHostnameVerify);
+			
+			// build our clients
+			this.consulCatalogClient = consul.catalogClient();
+			this.consulHealthClient = consul.healthClient();
+			
+		}catch(Exception e) {
+			String msg = "Unexpected error in configuring discovery: " + e.getMessage();
+			logger.severe(msg,e);
+		}
 		
 		// register our shutdown hook for deregisteration on shutdown...
 		Thread shutdownThread = new Thread(this);
@@ -148,7 +179,8 @@ public class ConsulDiscoveryStrategy extends AbstractDiscoveryStrategy implement
 		try {
 			// discover healthy nodes only? (and its NOT the first invocation...)
 			if (this.consulHealthyOnly && discoverNodesInvoked) {
-				List<ServiceHealth> nodes = consulHealthClient.getHealthyServiceInstances(consulServiceName).getResponse();
+				
+				List<ServiceHealth> nodes = consulHealthClient.getHealthyServiceInstances(consulServiceName, ConsulUtility.getAclToken(this.consulAclToken)).getResponse();
 				
 				for (ServiceHealth node : nodes) {
 					toReturn.add(new SimpleDiscoveryNode(
@@ -158,7 +190,8 @@ public class ConsulDiscoveryStrategy extends AbstractDiscoveryStrategy implement
 				
 			// discover all services, regardless of health or this is the first invocation
 			} else {
-				ConsulResponse<List<CatalogService>> response = this.consulCatalogClient.getService(consulServiceName);
+				
+				ConsulResponse<List<CatalogService>> response = this.consulCatalogClient.getService(consulServiceName, ConsulUtility.getAclToken(this.consulAclToken));
 				
 				for (CatalogService service : response.getResponse()) {
 					toReturn.add(new SimpleDiscoveryNode(
