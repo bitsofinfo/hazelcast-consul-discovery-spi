@@ -99,8 +99,9 @@
                       		then the "consul-port" property above needs to be set to the correct https port 
                       		that is configured on the Consul server.
                       		
-                      		In addition, either "consul-ssl-server-cert-file-path" or "consul-ssl-server-cert-base64" 
-                      		properties below would have to be provided if TLS is enabled. 
+                      		OPTIONALLY: In addition, either "consul-ssl-server-cert-file-path" or "consul-ssl-server-cert-base64" 
+                      		properties below would have to be provided if TLS is enabled and your consul server(s) present
+                      		a self-signed non-JRE trusted certificate.
                       
                        -->
                        
@@ -113,29 +114,33 @@
                       		"consul-ssl-server-cert-base64" property below.
                       
                        -->
-                       
-					  <property name="consul-ssl-server-cert-file-path">/path/to/ca.cert</property>
-					  
-					  
-					  <!-- 
-					  		A base64 encoded CA cert string that can be used for TLS connection. You can alternatively
-					  		provide the "consul-ssl-server-cert-file-path" property above.
-					  
-					   -->
-					   
-					  <property name="consul-ssl-server-cert-base64"></property>
-					  
-					  
-					  <!-- 
-					  		If this set to false, it will override the hostnameVerifier to be used by the client to verify 
-					  		the endpoint's hostname against it's identification information and always mark it as verified.
-					  		
-					  		You can set this to true, to use the default hostnameVerifier that will strict match the endpoint's 
-					  		hostname against the client identification.
-					  
-					   -->
-					   
-					  <property name="consul-ssl-server-hostname-verify">false</property>
+       
+			  <property name="consul-ssl-server-cert-file-path">/path/to/ca.cert</property>
+			  
+			  
+			  <!-- 
+			    OPTIONAL: only necessary if your consul server presents a self-signed certificate 
+			    
+			    A base64 encoded CA cert string that can be used for TLS connection. You can alternatively
+			    provide the "consul-ssl-server-cert-file-path" property above.
+			  
+			   -->
+			   
+			  <property name="consul-ssl-server-cert-base64"></property>
+			  
+			  
+			  <!-- 
+			   OPTIONAL: only necessary if your consul server presents a self-signed certificate 
+			  
+			   If this set to false, it will override the hostnameVerifier to be used by the client to verify 
+			   the endpoint's hostname against it's identification information and always mark it as verified.
+			  		
+			   You can set this to true, to use the default hostnameVerifier that will strict match the endpoint's 
+			   hostname against the client identification.
+			  
+			   -->
+			   
+			  <property name="consul-ssl-server-hostname-verify">false</property>
 					  
 					  
                       <!-- 
@@ -169,7 +174,7 @@
                                                                          hazelcast (if not null) over the private IP
                                                 
                                     - healthCheckProvider: the type of health check to use (script or http). It defaults to "script" if 
-                                    				   this property is not provided.            
+                                    			   this property is not provided.            
                                                                           
                                     - healthCheckScript: can be anything you want Consul to do to determine health. 
                                                          Variables #MYIP/#MYPORT will be replaced with this node's IP/PORT
@@ -178,7 +183,7 @@
                                     - healthCheckScriptIntervalSeconds: self explanatory
                                     
                                     - healthCheckHttp: valid hostname and port to use for health check. You can provide optional
-                                    				   path to a specific script.
+                                    			path to a specific script.
                                     
                                     - healthCheckHttpIntervalSeconds: self explanatory
                      -->
@@ -222,7 +227,7 @@
                                                                         "healthCheckProvider":"org.bitsofinfo.hazelcast.discovery.consul.HttpHealthCheckBuilder",
                                                                         "healthCheckScript":"exec 6<>/dev/tcp/#MYIP/#MYPORT || (exit 3)",
                                                                         "healthCheckScriptIntervalSeconds":30,
-                                                                        "healthCheckHttp":"http://www.google.com:80",
+                                                                        "healthCheckHttp":"http://some.endpoint.on.this.hz.app:80",
 																		"healthCheckHttpIntervalSeconds":30
                                                                       }
                                                                   ]]></property>
