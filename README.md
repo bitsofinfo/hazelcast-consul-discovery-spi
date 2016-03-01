@@ -149,8 +149,13 @@ consul agent -server -bootstrap-expect 1 -data-dir /tmp/consul -config-dir /path
               <property name="consul-registrator-config"><![CDATA[
     					{
     					  "preferPublicAddress":false,
+    					  "healthCheckProvider":"org.bitsofinfo.hazelcast.discovery.consul.ScriptHealthCheckBuilder",
     					  "healthCheckScript":"exec 6<>/dev/tcp/#MYIP/#MYPORT || (exit 3)",
-    					  "healthCheckScriptIntervalSeconds":30
+    					  "healthCheckScriptIntervalSeconds":30,
+    					  "healthCheckHttp":"http://#MYIP:80",
+    					  "healthCheckHttpIntervalSeconds":30,
+    					  "healthCheckTcp":"#MYIP:#MYPORT",
+    					  "healthCheckTcpIntervalSeconds":30
     					}
                   ]]></property>
         </properties>

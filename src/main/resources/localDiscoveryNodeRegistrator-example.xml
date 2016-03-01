@@ -48,7 +48,9 @@
                                                                         "healthCheckScript":"exec 6<>/dev/tcp/#MYIP/#MYPORT || (exit 3)",
                                                                         "healthCheckScriptIntervalSeconds":30,
                                                                         "healthCheckHttp":"http://#MYIP:80",
-																		"healthCheckHttpIntervalSeconds":30
+																		"healthCheckHttpIntervalSeconds":30,
+																		"healthCheckTcp":"#MYIP:#MYPORT",
+																		"healthCheckTcpIntervalSeconds":30
                                                                       }
                                                                   ]]></property>
                                                                   

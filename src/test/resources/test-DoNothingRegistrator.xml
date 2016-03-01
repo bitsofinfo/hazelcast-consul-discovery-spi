@@ -34,14 +34,18 @@
                    class="org.bitsofinfo.hazelcast.discovery.consul.ConsulDiscoveryStrategy">
         
                  <properties>
-                      <property name="consul-host">localhost</property>
-                      <property name="consul-port">8500</property>
+                      <property name="consul-host">${consulHost}</property>
+                      <property name="consul-port">${consulPort}</property>
                       <property name="consul-service-name">test-DoNothingRegistrator</property>
                       <property name="consul-healthy-only">true</property>
                       <property name="consul-service-tags">DoNothingRegistrator</property>
                       <property name="consul-discovery-delay-ms">0</property>
                       
-                      <property name="consul-ssl-enabled">false</property>
+                      <property name="consul-acl-token">${consulAclToken}</property>
+					  <property name="consul-ssl-enabled">${consulSslEnabled}</property>
+					  <property name="consul-ssl-server-cert-file-path">${consulSslServerCertFilePath}</property>
+					  <property name="consul-ssl-server-cert-base64">${consulSslServerCertBase64}</property>
+					  <property name="consul-ssl-server-hostname-verify">${consulSslServerHostnameVerify}</property>
 
                       <property name="consul-registrator">org.bitsofinfo.hazelcast.discovery.consul.DoNothingRegistrator</property>
                  </properties>
