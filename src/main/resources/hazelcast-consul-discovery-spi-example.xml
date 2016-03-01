@@ -192,7 +192,8 @@
                                     Properties consumed by: org.bitsofinfo.hazelcast.discovery.consul.HttpHealthCheckBuilder
                                     
                                     - healthCheckHttp: valid hostname and port to use for health check. You can provide optional
-                                    			       path to a specific script.
+                                    			       path to a specific script. Variables #MYIP/#MYPORT will be replaced with 
+                                    			       this node's IP/PORT
                                     
                                     - healthCheckHttpIntervalSeconds: self explanatory
                                     
@@ -200,6 +201,7 @@
                                     Properties consumed by: org.bitsofinfo.hazelcast.discovery.consul.TcpHealthCheckBuilder
                                     
                                     - healthCheckTcp: valid IP and port to use for health check.
+                                    				  Variables #MYIP/#MYPORT will be replaced with this node's IP/PORT
                                     
                                     - healthCheckTcpIntervalSeconds: self explanatory
                      -->
