@@ -48,7 +48,9 @@ public class ConsulClientBuilder implements ConsulBuilder {
 			if (consulSslEnabled) {
 				consulBuilder.withUrl("https://"+consulHost+":"+consulPort);
 				
-				if (consulSslServerCertFilePath != null || consulSslServerCertBase64 != null) {
+				if ( (consulSslServerCertFilePath != null && !consulSslServerCertFilePath.trim().isEmpty()) || 
+						(consulSslServerCertBase64 != null && !consulSslServerCertBase64.trim().isEmpty()) ) {
+					
 					consulBuilder.withSslContext(getSSLContext(consulSslServerCertFilePath, consulSslServerCertBase64));
 				}
 				

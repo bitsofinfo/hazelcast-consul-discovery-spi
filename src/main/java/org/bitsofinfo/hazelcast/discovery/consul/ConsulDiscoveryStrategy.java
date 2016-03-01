@@ -73,11 +73,11 @@ public class ConsulDiscoveryStrategy extends AbstractDiscoveryStrategy implement
 		this.consulServiceName = getOrDefault("consul-service-name",  ConsulDiscoveryConfiguration.CONSUL_SERVICE_NAME, "");		
 		this.consulHealthyOnly = getOrDefault("consul-healthy-only",  ConsulDiscoveryConfiguration.CONSUL_HEALTHY_ONLY, true);		
 		long discoveryDelayMS = getOrDefault("consul-discovery-delay-ms",  ConsulDiscoveryConfiguration.CONSUL_DISCOVERY_DELAY_MS, 30000);		
-		this.consulAclToken = getOrDefault("consul-acl-token", ConsulDiscoveryConfiguration.CONSUL_ACL_TOKEN, "");
+		this.consulAclToken = getOrDefault("consul-acl-token", ConsulDiscoveryConfiguration.CONSUL_ACL_TOKEN, null);
 		
 		boolean consulSslEnabled = getOrDefault("consul-ssl-enabled", ConsulDiscoveryConfiguration.CONSUL_SSL_ENABLED, false);
-		String consulSslServerCertFilePath = getOrDefault("consul-ssl-server-cert-file-path", ConsulDiscoveryConfiguration.CONSUL_SSL_SERVER_CERT_FILE_PATH, "");
-		String consulSslServerCertBase64 = getOrDefault("consul-ssl-server-cert-base64", ConsulDiscoveryConfiguration.CONSUL_SSL_SERVER_CERT_BASE64, "");
+		String consulSslServerCertFilePath = getOrDefault("consul-ssl-server-cert-file-path", ConsulDiscoveryConfiguration.CONSUL_SSL_SERVER_CERT_FILE_PATH, null);
+		String consulSslServerCertBase64 = getOrDefault("consul-ssl-server-cert-base64", ConsulDiscoveryConfiguration.CONSUL_SSL_SERVER_CERT_BASE64, null);
 		boolean consulServerHostnameVerify = getOrDefault("consul-ssl-server-hostname-verify", ConsulDiscoveryConfiguration.CONSUL_SSL_SERVER_HOSTNAME_VERIFY, true);
 		
 		
