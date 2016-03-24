@@ -297,6 +297,8 @@ The following parameters can be passed with the `-D` option when invoking the te
 
 ### <a id="docker"></a>Containerization (Docker) notes
 
+This library may also be helpful to you: [docker-discovery-registrator-consul](https://github.com/bitsofinfo/docker-discovery-registrator-consul)
+
 One of the main drivers for coding this module was for Hazelcast applications that were deployed as Docker containers
 that would need to automatically register themselves with Consul for higher level cluster orchestration of the cluster.
 
@@ -310,6 +312,8 @@ Specifically when using this discovery strategy and Docker, it may be useful for
 
 Start your hazelcast app such as with the below, this would assume that hazelcast is actually reachable via this configuration
 via your Docker host and the port mappings that were specified on `docker run`. (i.e. the IP below would be your docker host/port that is mapped to the actual hazelcast app container and port it exposes for hazelcast).
+
+This library may also be helpful to you: [docker-discovery-registrator-consul](https://github.com/bitsofinfo/docker-discovery-registrator-consul)
 
 See this [Docker issue for related info](https://github.com/docker/docker/issues/3778) on detecting mapped ports/ip from **within** a container
 
