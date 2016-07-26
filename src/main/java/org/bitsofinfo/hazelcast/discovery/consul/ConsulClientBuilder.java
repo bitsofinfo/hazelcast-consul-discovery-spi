@@ -13,7 +13,6 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
-import javax.ws.rs.client.ClientBuilder;
 
 import com.google.common.net.HostAndPort;
 import com.hazelcast.logging.ILogger;
@@ -55,12 +54,13 @@ public class ConsulClientBuilder implements ConsulBuilder {
 				}
 				
 				if (!consulServerHostnameVerify) {
+
 					//We don't want verify host name, so we will mark host name as verified
-					consulBuilder.withClientBuilder(ClientBuilder.newBuilder().hostnameVerifier(new HostnameVerifier() {
-					            public boolean verify(String s, SSLSession sslSession) {
-					                return true;
-					            }
-					        }));
+					consulBuilder.withHostnameVerifier(new HostnameVerifier() {
+			            public boolean verify(String s, SSLSession sslSession) {
+			                return true;
+			            }
+			        });
 				}
 			} else {
 				//Normal http without TLS

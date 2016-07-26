@@ -256,10 +256,10 @@
                                     			       this node's IP/PORT (port being hazelcast port)
                                     
                                     - healthCheckTcpIntervalSeconds: self explanatory
-                     -->
+                    
                       <property name="consul-registrator-config"><![CDATA[
                                                                       {
-                                                                        "registerWithIpAddress":"192.168.0.208",
+                                                                        "registerWithIpAddress":"192.168.1.102",
                                                                         "registerWithPort":5701, 
                                                                         "healthCheckProvider":"org.bitsofinfo.hazelcast.discovery.consul.HttpHealthCheckBuilder",
                                                                         "healthCheckScript":"exec 6<>/dev/tcp/#MYIP/#MYPORT || (exit 3)",
@@ -270,8 +270,8 @@
 																		"healthCheckTcpIntervalSeconds":30
                                                                       }
                                                                   ]]></property>
-                     -->
-                     
+                    
+                      -->
                      
                  </properties>
                </discovery-strategy>

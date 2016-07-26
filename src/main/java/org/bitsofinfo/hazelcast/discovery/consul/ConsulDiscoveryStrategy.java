@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.orbitz.fasterxml.jackson.core.JsonFactory;
+import com.orbitz.fasterxml.jackson.core.type.TypeReference;
+import com.orbitz.fasterxml.jackson.databind.ObjectMapper;
 import com.hazelcast.logging.ILogger;
 import com.hazelcast.nio.Address;
 import com.hazelcast.spi.discovery.AbstractDiscoveryStrategy;
@@ -19,6 +19,7 @@ import com.orbitz.consul.HealthClient;
 import com.orbitz.consul.model.ConsulResponse;
 import com.orbitz.consul.model.catalog.CatalogService;
 import com.orbitz.consul.model.health.ServiceHealth;
+
 
 /**
  * DiscoveryStrategy for Consul
@@ -99,6 +100,7 @@ public class ConsulDiscoveryStrategy extends AbstractDiscoveryStrategy implement
 		Map<String,Object> registratorConfig = null;
 		if (registratorConfigJSON != null && !registratorConfigJSON.trim().isEmpty()) {
 			try {
+				
 				JsonFactory factory = new JsonFactory(); 
 			    ObjectMapper mapper = new ObjectMapper(factory); 
 			    TypeReference<HashMap<String,Object>> typeRef 

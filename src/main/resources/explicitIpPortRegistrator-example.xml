@@ -46,7 +46,7 @@
                       <property name="consul-registrator">org.bitsofinfo.hazelcast.discovery.consul.ExplicitIpPortRegistrator</property>
                       <property name="consul-registrator-config"><![CDATA[
                                                                       {
-                                                                        "registerWithIpAddress":"192.168.0.208",
+                                                                        "registerWithIpAddress":"192.168.1.102",
                                                                         "registerWithPort":5701, 
                                                                         "healthCheckProvider":"org.bitsofinfo.hazelcast.discovery.consul.ScriptHealthCheckBuilder",
                                                                         "healthCheckScript":"exec 6<>/dev/tcp/#MYIP/#MYPORT || (exit 3)",

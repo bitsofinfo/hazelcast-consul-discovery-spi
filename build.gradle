@@ -24,14 +24,14 @@ targetCompatibility = 1.6
 
 dependencies {
 
-    compile group: 'com.hazelcast', name: 'hazelcast', version:'3.6'
-    compile group: 'com.orbitz.consul', name: 'consul-client', version:'0.10.0'
+    compile group: 'com.hazelcast', name: 'hazelcast', version:'3.6.4'
+    compile group: 'com.orbitz.consul', name: 'consul-client', version:'0.12.5'
 
     // for consul-client
     testCompile 'org.apache.cxf:cxf-rt-rs-client:3.0.3'
     testCompile 'org.apache.cxf:cxf-rt-transports-http-hc:3.0.3'
     testCompile 'junit:junit:4.12'
-
+    
 }
 
 bintray {
