@@ -24,7 +24,7 @@ targetCompatibility = 1.6
 
 dependencies {
 
-    compile group: 'com.hazelcast', name: 'hazelcast', version:'3.6.4'
+    compile group: 'com.hazelcast', name: 'hazelcast', version:'3.6+'
     compile group: 'com.orbitz.consul', name: 'consul-client', version:'0.12.5'
 
     // for consul-client
