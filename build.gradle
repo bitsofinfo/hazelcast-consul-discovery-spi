@@ -24,8 +24,8 @@ targetCompatibility = 1.6
 
 dependencies {
 
-    compile group: 'com.hazelcast', name: 'hazelcast', version:'3.6+'
-    compile group: 'com.orbitz.consul', name: 'consul-client', version:'0.12.5'
+    compile group: 'com.hazelcast', name: 'hazelcast', version:'3.7+'
+    compile group: 'com.orbitz.consul', name: 'consul-client', version:'0.13.2'
 
     // for consul-client
     testCompile 'org.apache.cxf:cxf-rt-rs-client:3.0.3'
