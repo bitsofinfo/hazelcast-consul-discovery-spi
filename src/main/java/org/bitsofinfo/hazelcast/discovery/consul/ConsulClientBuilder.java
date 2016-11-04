@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.security.KeyStore;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
-import java.util.Base64;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
@@ -19,6 +18,7 @@ import com.hazelcast.logging.ILogger;
 import com.hazelcast.logging.Logger;
 import com.orbitz.consul.Consul;
 import com.orbitz.consul.Consul.Builder;
+import org.apache.commons.codec.binary.Base64;
 /**
  * An implementation of a Consul client builder.
  * 
@@ -98,7 +98,7 @@ public class ConsulClientBuilder implements ConsulBuilder {
 			if (consulSslServerCertFilePath !=null && !consulSslServerCertFilePath.trim().isEmpty()) {
 				is = new FileInputStream(consulSslServerCertFilePath);
 			} else {
-				is = new ByteArrayInputStream(Base64.getDecoder().decode(consulSslServerCertBase64) );
+				is = new ByteArrayInputStream(Base64.decodeBase64(consulSslServerCertBase64));
 			}
 					
 			CertificateFactory cf = CertificateFactory.getInstance("X.509");
