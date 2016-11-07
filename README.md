@@ -1,6 +1,6 @@
 # hazelcast-consul-discovery-spi
 
-[![Build Status](https://travis-ci.org/bmudda/hazelcast-consul-discovery-spi.svg?branch=master)](https://travis-ci.org/bmudda/hazelcast-consul-discovery-spi)
+[![Build Status](https://travis-ci.org/bitsofinfo/hazelcast-consul-discovery-spi.svg?branch=master)](https://travis-ci.org/bitsofinfo/hazelcast-consul-discovery-spi)
 
 Provides a Consul based discovery strategy for Hazlecast 3.6+ enabled applications.
 This is an easy to configure plug-and-play Hazlecast DiscoveryStrategy that will optionally register each of your Hazelcast instances with Consul and enable Hazelcast nodes to dynamically discover one another via Consul.
