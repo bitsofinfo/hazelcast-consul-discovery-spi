@@ -1,0 +1,20 @@
+language: java
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+before_script:
+  - wget 'https://releases.hashicorp.com/consul/0.7.0/consul_0.7.0_linux_amd64.zip'
+  - unzip "consul_0.7.0_linux_amd64.zip"
+  - ./consul --version
+script: 
+  - ./gradlew --refresh-dependencies build
+  - ../consul agent -server -bootstrap-expect 1 -data-dir /tmp/consul &
+  - ./gradlew runTests
+jdk:
+  - oraclejdk8
+  - oraclejdk7
+  - openjdk7
