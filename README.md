@@ -28,6 +28,9 @@ This is release candidate code, tested against Hazelcast 3.6-EA+ through 3.6.x S
 
 * MASTER - in progress, this README refers to what is in the master tag. Switch to relevant RELEASE tag above to see that versions README
 
+
+* [1.0-RC6](https://github.com/bitsofinfo/hazelcast-consul-discovery-spi/releases/tag/1.0-RC6): Fix [#12], consul-client 0.13.2 upgrade, fix base64 Java 8 issue. Tested against Hazelcast 3.6-EA+ through 3.7+ Stable releases
+
 * [1.0-RC5](https://github.com/bitsofinfo/hazelcast-consul-discovery-spi/releases/tag/1.0-RC5): Upgrade to latest consul-client [#11](https://github.com/bitsofinfo/hazelcast-consul-discovery-spi/issues/11) Tested against Hazelcast 3.6-EA+ through 3.6.4+ Stable releases
 
 * [1.0-RC4](https://github.com/bitsofinfo/hazelcast-consul-discovery-spi/releases/tag/1.0-RC4): Adds support for TCP/HTTP checks [#3](https://github.com/bitsofinfo/hazelcast-consul-discovery-spi/issues/3) Tested against Hazelcast 3.6-EA+ through 3.6 Stable releases
@@ -56,7 +59,7 @@ repositories {
 }
 
 dependencies {
-	compile 'org.bitsofinfo:hazelcast-consul-discovery-spi:1.0-RC5'
+	compile 'org.bitsofinfo:hazelcast-consul-discovery-spi:1.0-RC6'
 
     // include your preferred javax.ws.rs-api implementation
     // (for the OrbitzWorldwide/consul-client dependency)
@@ -73,7 +76,7 @@ dependencies {
     <dependency>
         <groupId>org.bitsofinfo</groupId>
         <artifactId>hazelcast-consul-discovery-spi</artifactId>
-        <version>1.0-RC5</version>
+        <version>1.0-RC6</version>
     </dependency>
 
     <!-- include your preferred javax.ws.rs-api
