@@ -11,9 +11,9 @@ before_script:
   - unzip "consul_0.7.0_linux_amd64.zip"
   - ./consul --version
 script: 
-	- ./gradlew --refresh-dependencies build
-	- ../consul agent -server -bootstrap-expect 1 -data-dir /tmp/consul &
-	- ./gradlew runTests
+  - ./gradlew --refresh-dependencies build
+  - ../consul agent -server -bootstrap-expect 1 -data-dir /tmp/consul &
+  - ./gradlew runTests
 jdk:
   - oraclejdk8
   - oraclejdk7
