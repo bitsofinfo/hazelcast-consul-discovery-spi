@@ -196,9 +196,10 @@ public class ConsulDiscoveryStrategy extends AbstractDiscoveryStrategy implement
 				ConsulResponse<List<CatalogService>> response = this.consulCatalogClient.getService(consulServiceName, ConsulUtility.getAclToken(this.consulAclToken));
 				
 				for (CatalogService service : response.getResponse()) {
+					String discoveredAddress = service.getServiceAddress().equals("") ? service.getAddress() : service.getServiceAddress();
 					toReturn.add(new SimpleDiscoveryNode(
-							new Address(service.getServiceAddress(), service.getServicePort())));
-					getLogger().info("Discovered healthy node: " + service.getServiceAddress()+":"+service.getServicePort());
+							new Address(discoveredAddress, service.getServicePort())));
+					getLogger().info("Discovered healthy node: " + discoveredAddress+":"+service.getServicePort());
 				}
 			}
 			
