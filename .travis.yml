@@ -1,3 +1,4 @@
+dist: trusty
 language: java
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
@@ -7,7 +8,7 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
 before_script:
-  - wget --secure-protocol=TLSv1_2 'https://releases.hashicorp.com/consul/0.7.0/consul_0.7.0_linux_amd64.zip'
+  - wget 'https://releases.hashicorp.com/consul/0.7.0/consul_0.7.0_linux_amd64.zip'
   - unzip "consul_0.7.0_linux_amd64.zip"
   - ./consul --version
 script: 
