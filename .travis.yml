@@ -13,6 +13,7 @@ before_script:
   - unzip "consul_0.7.0_linux_amd64.zip"
   - ./consul --version
 script: 
+  - ls -al /usr/lib/jvm/
   - ./gradlew --refresh-dependencies build
   - ../consul agent -server -bootstrap-expect 1 -data-dir /tmp/consul &
   - ./gradlew runTests
