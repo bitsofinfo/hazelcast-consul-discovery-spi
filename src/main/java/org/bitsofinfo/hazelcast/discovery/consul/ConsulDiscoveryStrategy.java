@@ -205,13 +205,13 @@ public class ConsulDiscoveryStrategy extends AbstractDiscoveryStrategy implement
 					    discoveredAddress = rawServiceAddress;
 						
 					} else if (rawAddress != null && !rawAddress.trim().isEmpty()) {
-					    getLogger().warn("discoverNodes() ServiceAddress was null/blank! " +
+					    getLogger().warning("discoverNodes() ServiceAddress was null/blank! " +
 							     "for service: " + service.getServiceName() + 
 							     " falling back to Address value");
 					    discoveredAddress = rawAddress;
 						
 					} else {
-					    getLogger().warn("discoverNodes() could not discover an address, " +
+					    getLogger().warning("discoverNodes() could not discover an address, " +
 							     "both ServiceAddress and Address were null/blank! " +
 							     "for service: " + service.getServiceName());
 					}
