@@ -18,7 +18,5 @@ script:
   - ../consul agent -server -bootstrap-expect 1 -data-dir /tmp/consul &
   - ./gradlew runTests
 jdk:
-  - oraclejdk9
-  - openjdk9
   - oraclejdk8
   - openjdk8
