@@ -296,6 +296,7 @@ The following parameters can be passed with the `-D` option when invoking the te
 
 * https://www.consul.io
 * http://docs.hazelcast.org/docs/3.6/manual/html-single/index.html#discovery-spi
+* **Swarm** version of this: https://github.com/bitsofinfo/hazelcast-docker-swarm-discovery-spi 
 * **Etcd** version of this: https://github.com/bitsofinfo/hazelcast-etcd-discovery-spi
 
 ## <a id="todo"></a>Todo
