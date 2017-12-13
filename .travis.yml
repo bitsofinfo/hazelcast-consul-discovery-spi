@@ -17,6 +17,7 @@ script:
   - ./gradlew --refresh-dependencies build
   - ./consul agent -server -bootstrap-expect 1 -data-dir /tmp/consul -enable-script-checks -bind=127.0.0.1 &
   - ./gradlew runTests
+  - cat build/test-results/runTests/TEST-org.bitsofinfo.hazelcast.discovery.consul.TestExplicitIpPortRegistrator.xml
 jdk:
   - oraclejdk8
   - openjdk8
