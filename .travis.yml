@@ -15,7 +15,7 @@ before_script:
 script: 
   - ls -al /usr/lib/jvm/
   - ./gradlew --refresh-dependencies build
-  - ./consul agent -server -bootstrap-expect 1 -data-dir /tmp/consul -enable-script-checks &
+  - ./consul agent -server -bootstrap-expect 1 -data-dir /tmp/consul -enable-script-checks -bind=127.0.0.1 &
   - ./gradlew runTests
 jdk:
   - oraclejdk8
