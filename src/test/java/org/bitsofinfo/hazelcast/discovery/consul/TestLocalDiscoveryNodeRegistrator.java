@@ -20,8 +20,12 @@ public class TestLocalDiscoveryNodeRegistrator extends RegistratorTestBase {
 	}
 
 	@Override
-	protected void preConstructHazelcast(int instanceNumber) {
-		// we do nothing
+	protected void preConstructHazelcast(int instanceNumber) throws Exception {
+		String ip = super.determineIpAddress();
+		
+		// these variables are subsituted for the ${vars} in the hazelcast config XML 
+		System.setProperty("hz.public.address.ip", ip);
+		System.setProperty("hz.public.address.port", "570"+(instanceNumber+1));
 		
 	}
 	

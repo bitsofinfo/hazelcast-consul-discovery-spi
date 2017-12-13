@@ -30,6 +30,9 @@ public class TestExplicitIpPortRegistrator extends RegistratorTestBase {
 		System.setProperty("registerWithIp", ip);
 		System.setProperty("registerWithPort","570"+(instanceNumber+1)); // start at 5701 - 5705
 		
+		System.setProperty("hz.public.address.ip", ip);
+		System.setProperty("hz.public.address.port", "570"+(instanceNumber+1));
+		
 	}
 	
 }

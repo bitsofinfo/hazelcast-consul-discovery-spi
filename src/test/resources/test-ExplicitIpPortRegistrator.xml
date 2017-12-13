@@ -23,6 +23,8 @@
     <network>
         <port auto-increment="true">5701</port>
         
+        <public-address>${hz.public.address.ip}:${hz.public.address.port}</public-address>
+        
         <join>
             <multicast enabled="false"/>
               <aws enabled="false"/>
