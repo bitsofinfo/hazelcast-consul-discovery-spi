@@ -17,6 +17,7 @@ This is an easy to configure plug-and-play Hazlecast DiscoveryStrategy that will
 * [Todo](#todo)
 * [Notes](#notes)
 * [Docker info](#docker)
+* [Consul info](#consul)
 
 ![Diagram of hazelcast consul discovery strategy](/docs/diag.png "Diagram2")
 
@@ -296,6 +297,7 @@ The following parameters can be passed with the `-D` option when invoking the te
 
 * https://www.consul.io
 * http://docs.hazelcast.org/docs/3.6/manual/html-single/index.html#discovery-spi
+* https://www.consul.io/docs/guides/acl.html#complete-acl-coverage-in-consul-0-8
 * **Swarm** version of this: https://github.com/bitsofinfo/hazelcast-docker-swarm-discovery-spi 
 * **Etcd** version of this: https://github.com/bitsofinfo/hazelcast-etcd-discovery-spi
 
@@ -364,3 +366,11 @@ WARNING: [192.168.0.208]:5701 [hazelcast-consul-discovery] [3.6] SocketWriter is
 Nov 20, 2015 6:57:50 PM com.hazelcast.nio.tcp.TcpIpConnection
 INFO: [192.168.0.208]:5701 [hazelcast-consul-discovery] [3.6] Connection [/192.168.0.208:53495] lost. Reason: java.io.EOFException[Could not read protocol type!]
 ```
+
+### <a id="consul"></a>Consul notes
+
+This library was originally developed prior to Consul 0.8, as of 0.8+, changes to the ACL system were made which may require you to grant
+additional access for the anonymous token against the `agent` acl. 
+
+See: https://www.consul.io/docs/guides/acl.html#complete-acl-coverage-in-consul-0-8
+
