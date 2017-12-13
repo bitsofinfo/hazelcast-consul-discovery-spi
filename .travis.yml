@@ -9,13 +9,13 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
 before_script:
-  - wget 'https://releases.hashicorp.com/consul/0.7.5/consul_0.7.5_linux_amd64.zip'
-  - unzip "consul_0.7.5_linux_amd64.zip"
+  - wget 'https://releases.hashicorp.com/consul/1.0.1/consul_1.0.1_linux_amd64.zip'
+  - unzip "consul_1.0.1_linux_amd64.zip"
   - ./consul --version
 script: 
   - ls -al /usr/lib/jvm/
   - ./gradlew --refresh-dependencies build
-  - ../consul agent -server -bootstrap-expect 1 -data-dir /tmp/consul &
+  - ../consul agent -server -bootstrap-expect 1 -data-dir /tmp/consul -enable-script-checks &
   - ./gradlew runTests
 jdk:
   - oraclejdk8
