@@ -29,7 +29,8 @@ public interface ConsulBuilder{
 				boolean consulSslEnabled,
 				String	consulSslServerCertFilePath,
 				String consulSslServerCertBase64,
-				boolean consulServerHostnameVerify
+				boolean consulServerHostnameVerify,
+				String consulAclToken
 			) throws Exception;
 	
 }

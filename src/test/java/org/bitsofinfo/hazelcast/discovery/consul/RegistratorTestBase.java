@@ -67,7 +67,8 @@ public abstract class RegistratorTestBase {
 												consulSslEnabled, 
 												consulSslServerCertFilePath, 
 												consulSslServerCertBase64, 
-												consulSslServerHostnameVerify);
+												consulSslServerHostnameVerify,
+												consulAclToken);
 			
 			CatalogClient consulCatalogClient = consul.catalogClient();
 	

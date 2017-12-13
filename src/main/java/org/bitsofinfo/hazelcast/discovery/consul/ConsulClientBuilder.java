@@ -36,12 +36,17 @@ public class ConsulClientBuilder implements ConsulBuilder {
 			boolean consulSslEnabled,
 			String	consulSslServerCertFilePath,
 			String consulSslServerCertBase64,
-			boolean consulServerHostnameVerify
+			boolean consulServerHostnameVerify,
+			String consulAclToken
 			) throws Exception {
 		
 		
 		try{
 			Builder consulBuilder = Consul.builder();
+			
+			if (consulAclToken != null && !consulAclToken.trim().isEmpty()) {
+				consulBuilder.withAclToken(consulAclToken);
+			}
 			
 			//If SSL is enabled via xml configuration, then we use SSL context to build our client
 			if (consulSslEnabled) {

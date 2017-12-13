@@ -17,18 +17,19 @@ This is an easy to configure plug-and-play Hazlecast DiscoveryStrategy that will
 * [Todo](#todo)
 * [Notes](#notes)
 * [Docker info](#docker)
-* [Consul info](#consul)
+* [Consul ACL issues?](#consul)
 
 ![Diagram of hazelcast consul discovery strategy](/docs/diag.png "Diagram2")
 
 ## <a id="status"></a>Status
 
-This is release candidate code, tested against Hazelcast 3.6-EA+ through 3.6.x Stable releases.
+This is release candidate code, tested against Hazelcast 3.6-EA+ through 3.9.x stable releases, as well as Consul 0.7.x up to 1.0.x.
 
 ## <a id="releases"></a>Releases
 
 * MASTER - in progress, this README refers to what is in the master tag. Switch to relevant RELEASE tag above to see that versions README
 
+* [1.0-RC8](https://github.com/bitsofinfo/hazelcast-consul-discovery-spi/releases/tag/1.0-RC8): Tweaks for Consul 0.8+ (health check sample script change). consul-client upgrade to 0.17.1; build.gradle HZ `3.+` dependency. Address post Consul 0.8 ACL notes (in README) for [#26]
 
 * [1.0-RC7](https://github.com/bitsofinfo/hazelcast-consul-discovery-spi/releases/tag/1.0-RC7): consul-client 0.13.12; Fix [#17] with PR https://github.com/bitsofinfo/hazelcast-consul-discovery-spi/pull/18
 
@@ -62,7 +63,7 @@ repositories {
 }
 
 dependencies {
-	compile 'org.bitsofinfo:hazelcast-consul-discovery-spi:1.0-RC7'
+	compile 'org.bitsofinfo:hazelcast-consul-discovery-spi:1.0-RC8'
 
     // include your preferred javax.ws.rs-api implementation
     // (for the OrbitzWorldwide/consul-client dependency)
@@ -79,7 +80,7 @@ dependencies {
     <dependency>
         <groupId>org.bitsofinfo</groupId>
         <artifactId>hazelcast-consul-discovery-spi</artifactId>
-        <version>1.0-RC7</version>
+        <version>1.0-RC8</version>
     </dependency>
 
     <!-- include your preferred javax.ws.rs-api
@@ -162,7 +163,7 @@ consul agent -server -bootstrap-expect 1 -data-dir /tmp/consul -config-dir /path
     					{
     					  "preferPublicAddress":false,
     					  "healthCheckProvider":"org.bitsofinfo.hazelcast.discovery.consul.ScriptHealthCheckBuilder",
-    					  "healthCheckScript":"exec 6<>/dev/tcp/#MYIP/#MYPORT || (exit 3)",
+    					  "healthCheckScript":"nc -z #MYIP #MYPORT",
     					  "healthCheckScriptIntervalSeconds":30,
     					  "healthCheckHttp":"http://#MYIP:80",
     					  "healthCheckHttpIntervalSeconds":30,
@@ -338,7 +339,7 @@ See this [Docker issue for related info](https://github.com/docker/docker/issues
       {
         "registerWithIpAddress":"${registerWithIpAddress}",
         "registerWithPort":${registerWithPort},
-        "healthCheckScript":"exec 6<>/dev/tcp/#MYIP/#MYPORT || (exit 3)",
+        "healthCheckScript":"nc -z #MYIP #MYPORT",
         "healthCheckScriptIntervalSeconds":30
       }
   ]]></property>
@@ -347,7 +348,7 @@ Until hazelcast fixes the numerous issues around interfaces/binding etc, you may
 
 ### Consul health-check notes
 
-You should see this in your Consul agent monitor when the health-check scripts are running:
+Depending on the health check script you are using: (`nc -z #MYIP #MYPORT` OR  `/bin/sh exec 6<>/dev/tcp/#MYIP/#MYPORT || (exit 3)`  should see something like in your Consul agent monitor when the health-check scripts are running:
 ```
 > consul monitor --log-level trace
 
@@ -355,7 +356,18 @@ You should see this in your Consul agent monitor when the health-check scripts a
 2015/11/20 11:21:39 [DEBUG] agent: Check 'service:hz-discovery-test-cluster-192.168.0.208-192.168.0.208-5701' is passing
 ```
 
-You will see something like these warnings logged when the health-check script interrogates the hazelcast port and does nothing. You are free to monitor the services any way you wish, or not at all by omitting the `healthCheckScript` JSON property; see [See hazelcast-consul-discovery-spi-example.xml](src/main/resources/hazelcast-consul-discovery-spi-example.xml) for an example.
+Depending on the version of Hazelcast you are using, you may see something like these warnings logged when the health-check script interrogates the hazelcast port and does nothing. You are free to monitor the services any way you wish, or not at all by omitting the `healthCheckScript` JSON property; see [See hazelcast-consul-discovery-spi-example.xml](src/main/resources/hazelcast-consul-discovery-spi-example.xml) for an example.
+
+```
+Dec 13, 2017 10:25:40 AM com.hazelcast.nio.tcp.TcpIpConnection
+INFO: [172.20.10.2]:5702 [hazelcast-consul-discovery-spi] [3.9.1] Connection[id=3, /172.20.10.2:5702->/172.20.10.2:57436, endpoint=null, alive=false, type=NONE] closed. Reason: Connection closed by the other side
+
+Dec 13, 2017 10:25:40 AM com.hazelcast.nio.tcp.TcpIpConnection
+INFO: [172.20.10.2]:5702 [hazelcast-consul-discovery-spi] [3.9.1] Connection[id=3, /172.20.10.2:5702->/172.20.10.2:57436, endpoint=null, alive=false, type=NONE] closed. Reason: Connection closed by the other side
+```
+
+OR
+
 ```
 Nov 20, 2015 6:57:50 PM com.hazelcast.nio.tcp.SocketAcceptorThread
 INFO: [192.168.0.208]:5701 [hazelcast-consul-discovery] [3.6] Accepting socket connection from /192.168.0.208:53495
@@ -367,10 +379,23 @@ Nov 20, 2015 6:57:50 PM com.hazelcast.nio.tcp.TcpIpConnection
 INFO: [192.168.0.208]:5701 [hazelcast-consul-discovery] [3.6] Connection [/192.168.0.208:53495] lost. Reason: java.io.EOFException[Could not read protocol type!]
 ```
 
-### <a id="consul"></a>Consul notes
+### <a id="consul"></a>Consul ACL issues
 
 This library was originally developed prior to Consul 0.8, as of 0.8+, changes to the ACL system were made which may require you to grant
-additional access for the anonymous token against the `agent` acl. 
+additional access if your target consul is in default deny mode
 
-See: https://www.consul.io/docs/guides/acl.html#complete-acl-coverage-in-consul-0-8
+See: 
+
+* https://www.consul.io/docs/guides/acl.html#complete-acl-coverage-in-consul-0-8
+* https://www.consul.io/docs/guides/acl.html#bootstrapping-acls
+
+For examples: For the unit tests to work, create a new `client` token w/ the following policy, then assign the token to the `consul-acl-token` setting for this SPI's XML config:
+
+```
+service "" { policy = "write" },
+node "" { policy = "write" },
+agent "" { policy = "read" }
+```
+
+NOTE! The above sample is just that (a simple sample), in production you may want to re-evaluate and lock down further as needed. 
 

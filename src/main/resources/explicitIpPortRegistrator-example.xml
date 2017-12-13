@@ -49,7 +49,7 @@
                                                                         "registerWithIpAddress":"192.168.1.102",
                                                                         "registerWithPort":5701, 
                                                                         "healthCheckProvider":"org.bitsofinfo.hazelcast.discovery.consul.ScriptHealthCheckBuilder",
-                                                                        "healthCheckScript":"exec 6<>/dev/tcp/#MYIP/#MYPORT || (exit 3)",
+                                                                        "healthCheckScript":"nc -z #MYIP #MYPORT",
                                                                         "healthCheckScriptIntervalSeconds":30,
                                                                         "healthCheckHttp":"http://#MYIP:80",
                                                                         "healthCheckHttpIntervalSeconds":30,

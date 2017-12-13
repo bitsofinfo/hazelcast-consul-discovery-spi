@@ -148,7 +148,8 @@ public class ConsulDiscoveryStrategy extends AbstractDiscoveryStrategy implement
 												consulSslEnabled, 
 												consulSslServerCertFilePath, 
 												consulSslServerCertBase64, 
-												consulServerHostnameVerify);
+												consulServerHostnameVerify,
+												consulAclToken);
 			
 			// build our clients
 			this.consulCatalogClient = consul.catalogClient();

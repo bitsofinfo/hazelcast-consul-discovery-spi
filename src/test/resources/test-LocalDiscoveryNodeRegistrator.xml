@@ -52,7 +52,7 @@
                                                                       {
                                                                         "preferPublicAddress":false, 
                                                                         "healthCheckProvider":"${consulHealthCheckProvider}",
-                                                                        "healthCheckScript":"exec 6<>/dev/tcp/#MYIP/#MYPORT || (exit 3)",
+                                                                        "healthCheckScript":"nc -z #MYIP #MYPORT",
                                                                         "healthCheckScriptIntervalSeconds":30,
                                                                         "healthCheckHttp":"http://#MYIP:80",
 																		"healthCheckHttpIntervalSeconds":30,

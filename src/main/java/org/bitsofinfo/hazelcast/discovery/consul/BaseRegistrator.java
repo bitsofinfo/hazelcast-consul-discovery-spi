@@ -98,7 +98,8 @@ public abstract class BaseRegistrator implements ConsulRegistrator {
 												consulSslEnabled, 
 												consulSslServerCertFilePath, 
 												consulSslServerCertBase64, 
-												consulServerHostnameVerify);
+												consulServerHostnameVerify,
+												consulAclToken);
 			
 			 
 			// build my Consul agent client that we will register with
