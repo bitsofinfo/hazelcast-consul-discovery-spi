@@ -15,7 +15,7 @@ public class TestLocalDiscoveryNodeRegistrator extends RegistratorTestBase {
 	 * 
 	 */
 	@Test
-	public void testLocalIpPortRegistrator() {
+	public void testLocalDiscoveryNodeRegistrator() {
 		testRegistrator("test-LocalDiscoveryNodeRegistrator.xml","test-LocalDiscoveryNodeRegistrator");
 	}
 
