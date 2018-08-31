@@ -1,5 +1,6 @@
 package org.bitsofinfo.hazelcast.discovery.consul;
 
+import java.util.Arrays;
 import java.util.Map;
 
 import com.hazelcast.logging.ILogger;
@@ -43,7 +44,7 @@ public class ScriptHealthCheckBuilder implements HealthCheckBuilder {
 				String healthCheckScript = rawScript.replaceAll(HEALTH_SCRIPT_TEMPLATE_MYIP, localAddress.getInetAddress().getHostAddress())
 												    .replaceAll(HEALTH_SCRIPT_TEMPLATE_MYPORT, String.valueOf(localAddress.getPort()));
 			
-				regCheck = Registration.RegCheck.script(healthCheckScript, healthCheckScriptIntervalSeconds);
+				regCheck = Registration.RegCheck.args(Arrays.asList(healthCheckScript.split(" ")), healthCheckScriptIntervalSeconds);
 			}
 		
 		}catch(Exception e){

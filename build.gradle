@@ -24,14 +24,14 @@ targetCompatibility = 1.6
 
 dependencies {
 
-    compile group: 'com.hazelcast', name: 'hazelcast', version:'3.+'
-    compile group: 'com.orbitz.consul', name: 'consul-client', version:'0.17.1'
-	compile group: 'commons-codec', name: 'commons-codec', version:'1.8'
+    compile group: 'com.hazelcast', name: 'hazelcast', version:"${hazelcast_version}"
+    compile group: 'com.orbitz.consul', name: 'consul-client', version:"${consul_client_version}"
+	compile group: 'commons-codec', name: 'commons-codec', version:"${commons_codec_version}"
 
     // for consul-client
-    testCompile 'org.apache.cxf:cxf-rt-rs-client:3.0.3'
-    testCompile 'org.apache.cxf:cxf-rt-transports-http-hc:3.0.3'
-    testCompile 'junit:junit:4.12'
+    testCompile "org.apache.cxf:cxf-rt-rs-client:${cxf_rt_version}"
+    testCompile "org.apache.cxf:cxf-rt-transports-http-hc:${cxf_rt_version}"
+    testCompile "junit:junit:${junit_version}"
     
 }
 
