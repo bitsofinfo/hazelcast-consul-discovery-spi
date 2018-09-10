@@ -165,10 +165,6 @@ consul agent -server -bootstrap-expect 1 -data-dir /tmp/consul -config-dir /path
     					  "healthCheckProvider":"org.bitsofinfo.hazelcast.discovery.consul.ScriptHealthCheckBuilder",
     					  "healthCheckScript":"nc -z #MYIP #MYPORT",
     					  "healthCheckScriptIntervalSeconds":30,
-    					  "healthCheckHttp":"http://#MYIP:80",
-    					  "healthCheckHttpIntervalSeconds":30,
-    					  "healthCheckTcp":"#MYIP:#MYPORT",
-    					  "healthCheckTcpIntervalSeconds":30
     					}
                   ]]></property>
         </properties>
@@ -177,6 +173,24 @@ consul agent -server -bootstrap-expect 1 -data-dir /tmp/consul -config-dir /path
 
   </join>
 </network>
+```
+* The above example uses a script health check, so don't forget to enable it in consul (see [Consul checks definition](https://www.consul.io/docs/agent/checks.html)).
+You can also make use of a simple network TCP check, substituting the healthChek properties about with the following:
+
+```
+                "healthCheckProvider":"org.bitsofinfo.hazelcast.discovery.consul.TcpHealthCheckBuilder",
+                "healthCheckTcp":"#MYIP:#MYPORT",
+                "healthCheckTcpIntervalSeconds":30
+```
+
+* An you can also use the HTTP healthcheck that Hazelcast provides, don't forget to set Hazelcast property 'hazelcast.http.healthcheck.enabled' to true. (see Hazelcast's [Simple HTTP based healthcheck implementation](https://github.com/hazelcast/hazelcast/pull/9284)), substituting the healthChek properties about with the following:
+
+```
+ <property name="hazelcast.http.healthcheck.enabled">true</property>
+ ...
+                "healthCheckProvider":"org.bitsofinfo.hazelcast.discovery.consul.HttpHealthCheckBuilder",
+                "healthCheckHttp":"http://#MYIP:#MYPORT/hazelcast/health",
+                "healthCheckHttpIntervalSeconds":30,
 ```
 
 * Once nodes are joined you can query Consul to see the auto-registration of hazelcast instances works, the service-id's generated etc
