@@ -29,6 +29,8 @@ This is release candidate code, tested against Hazelcast 3.6-EA+ through 3.9.x s
 
 * MASTER - in progress, this README refers to what is in the master tag. Switch to relevant RELEASE tag above to see that versions README
 
+* [1.0-RC9](https://github.com/bitsofinfo/hazelcast-consul-discovery-spi/releases/tag/1.0-RC9): PR #28 #29 (consul health script fixes) for #27
+
 * [1.0-RC8](https://github.com/bitsofinfo/hazelcast-consul-discovery-spi/releases/tag/1.0-RC8): Tweaks for Consul 0.8+ (health check sample script change). consul-client upgrade to 0.17.1; build.gradle HZ `3.+` dependency. Address post Consul 0.8 ACL notes (in README) for [#26]
 
 * [1.0-RC7](https://github.com/bitsofinfo/hazelcast-consul-discovery-spi/releases/tag/1.0-RC7): consul-client 0.13.12; Fix [#17] with PR https://github.com/bitsofinfo/hazelcast-consul-discovery-spi/pull/18
