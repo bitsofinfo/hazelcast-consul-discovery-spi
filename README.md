@@ -247,7 +247,7 @@ You can also make use of a simple network TCP check, substituting the healthChek
 * If not already present in your hazelcast application's Maven (pom.xml) or Gradle (build.gradle) dependencies section; ensure that these dependencies are present (versions may vary as appropriate):
 
 ```
-compile group: 'com.orbitz.consul', name: 'consul-client', version:'0.9.16'
+compile group: 'com.orbitz.consul', name: 'consul-client', version:'1.2.3'
 compile group: 'org.apache.cxf', name:'cxf-rt-rs-client', version:'3.0.3'
 compile group: 'org.apache.cxf', name:'cxf-rt-transports-http-hc', version:'3.0.3'
 ```
