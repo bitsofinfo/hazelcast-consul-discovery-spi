@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <hazelcast id="hazelcast-consul-discovery" 
-           xsi:schemaLocation="http://www.hazelcast.com/schema/config hazelcast-config-3.6.xsd"
+           xsi:schemaLocation="http://www.hazelcast.com/schema/config hazelcast-config-4.0.xsd"
            xmlns="http://www.hazelcast.com/schema/config"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
            
@@ -10,10 +10,7 @@
       For documentation on the discovery-strategy properties and their usage
      #####################
      -->
-    <group>
-        <name>test-DoNothingRegistrator</name>
-        <password>haz3lcast1</password>
-    </group>
+    <cluster-name>test-DoNothingRegistrator</cluster-name>
 
     <properties>
         <property name="hazelcast.discovery.enabled">true</property>

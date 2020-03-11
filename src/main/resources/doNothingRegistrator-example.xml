@@ -1,31 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hazelcast id="hazelcast-consul-discovery" 
-           xsi:schemaLocation="http://www.hazelcast.com/schema/config hazelcast-config-3.6.xsd"
+<hazelcast id="hazelcast-consul-discovery"
+           xsi:schemaLocation="http://www.hazelcast.com/schema/config hazelcast-config-4.0.xsd"
            xmlns="http://www.hazelcast.com/schema/config"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <group>
-        <name>hazelcast-consul-discovery-spi</name>
-        <password>haz3lcast1</password>
-    </group>
+    <cluster-name>hazelcast-consul-discovery-spi</cluster-name>
 
     <properties>
         <property name="hazelcast.discovery.enabled">true</property>
-        <property name="hazelcast.shutdownhook.enabled">false</property> 
+        <property name="hazelcast.shutdownhook.enabled">false</property>
     </properties>
 
     <network>
         <port auto-increment="true">5701</port>
-        
+
         <join>
             <multicast enabled="false"/>
               <aws enabled="false"/>
               <tcp-ip enabled="false" />
-              
+
              <discovery-strategies>
-        
+
                <discovery-strategy enabled="true"
                    class="org.bitsofinfo.hazelcast.discovery.consul.ConsulDiscoveryStrategy">
-        
+
                  <properties>
 	                <property name="consul-host">localhost</property>
 	                <property name="consul-port">8500</property>
@@ -40,7 +37,7 @@
                  </properties>
                </discovery-strategy>
              </discovery-strategies>
-              
+
         </join>
     </network>
 </hazelcast>

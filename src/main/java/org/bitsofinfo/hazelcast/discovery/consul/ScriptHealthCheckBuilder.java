@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.hazelcast.logging.ILogger;
 import com.hazelcast.logging.Logger;
-import com.hazelcast.nio.Address;
+import com.hazelcast.cluster.Address;
 import com.orbitz.consul.model.agent.Registration;
 import com.orbitz.consul.model.agent.Registration.RegCheck;
 
