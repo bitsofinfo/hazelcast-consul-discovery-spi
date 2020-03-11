@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 import com.hazelcast.logging.ILogger;
-import com.hazelcast.nio.Address;
+import com.hazelcast.cluster.Address;
 import com.hazelcast.spi.discovery.DiscoveryNode;
 import com.orbitz.consul.AgentClient;
 import com.orbitz.consul.Consul;

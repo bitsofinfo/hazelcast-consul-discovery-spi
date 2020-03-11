@@ -2,7 +2,7 @@ package org.bitsofinfo.hazelcast.discovery.consul;
 
 import java.util.Map;
 
-import com.hazelcast.nio.Address;
+import com.hazelcast.cluster.Address;
 import com.orbitz.consul.model.agent.Registration.RegCheck;
 
 /**
