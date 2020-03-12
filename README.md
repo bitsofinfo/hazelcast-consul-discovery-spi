@@ -3,7 +3,9 @@
 [![Build Status](https://travis-ci.org/bitsofinfo/hazelcast-consul-discovery-spi.svg?branch=master)](https://travis-ci.org/bitsofinfo/hazelcast-consul-discovery-spi)
 
 Provides a Consul based discovery strategy for Hazlecast 3.6+ enabled applications.
-This is an easy to configure plug-and-play Hazlecast DiscoveryStrategy that will optionally register each of your Hazelcast instances with Consul and enable Hazelcast nodes to dynamically discover one another via Consul.
+This is an easy to configure plug-and-play Hazlecast DiscoveryStrategy that will optionally register each of your Hazelcast instances with Consul and enable Hazelcast nodes to dynamically discover one another via Consul. 
+
+See "releases" below for important compatibility details with different version of Hazelcast.
 
 * [Status](#status)
 * [Releases](#releases)
@@ -23,11 +25,23 @@ This is an easy to configure plug-and-play Hazlecast DiscoveryStrategy that will
 
 ## <a id="status"></a>Status
 
-This is release candidate code, tested against Hazelcast 3.6-EA+ through 3.9.x stable releases, as well as Consul 0.7.x up to 1.0.x.
+This is release candidate code, tested against Hazelcast 3.6-EA+ through 3.9.x and 4.x stable releases, as well as Consul 0.7.x up to 1.0.x.
 
 ## <a id="releases"></a>Releases
 
+
+### Hazelcast compatibility
+
+* For Hazelcast >= 4.0 you should use [2.0-RC1+](https://github.com/bitsofinfo/hazelcast-consul-discovery-spi/releases/tag/2.0-RC1)
+  
+* For Hazelcast <= 3.x you should use [1.0-RC9 or below](https://github.com/bitsofinfo/hazelcast-consul-discovery-spi/releases/tag/1.0-RC9)
+
+
+### Release history
+
 * MASTER - in progress, this README refers to what is in the master tag. Switch to relevant RELEASE tag above to see that versions README
+
+* [2.0-RC1](https://github.com/bitsofinfo/hazelcast-consul-discovery-spi/releases/tag/2.0-RC1): PR #33 #34 Compat updates for Hazelcast 4.x thanks @amrsamii. **REQUIRES HAZELCAST 4.x+, will not work with Hazelcast <= 3.x**
 
 * [1.0-RC9](https://github.com/bitsofinfo/hazelcast-consul-discovery-spi/releases/tag/1.0-RC9): PR #28 #29 (consul health script fixes) for #27
 

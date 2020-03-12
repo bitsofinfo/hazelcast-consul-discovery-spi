@@ -5,3 +5,5 @@
 .gradle/
 .settings/
 .idea/
+
+.DS_Store
