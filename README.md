@@ -429,3 +429,9 @@ agent "" { policy = "read" }
 
 NOTE! The above sample is just that (a simple sample), in production you may want to re-evaluate and lock down further as needed. 
 
+
+## push
+
+```
+./gradlew -PbintrayUser= -PbintrayApiKey= bintray 
+```
