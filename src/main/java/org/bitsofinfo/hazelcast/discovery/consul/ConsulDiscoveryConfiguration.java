@@ -22,6 +22,10 @@ public class ConsulDiscoveryConfiguration {
 	public static final PropertyDefinition CONSUL_SERVICE_TAGS = 
 			new SimplePropertyDefinition("consul-service-tags", true, PropertyTypeConverter.STRING);
 	
+	// Optional Property defaults to empty string if empty or not provided
+	public static final PropertyDefinition CONSUL_SERVICE_FILTER_TAGS = 
+			new SimplePropertyDefinition("consul-service-filter-tags", true, PropertyTypeConverter.STRING);
+	
 	public static final PropertyDefinition CONSUL_SERVICE_NAME = 
 			new SimplePropertyDefinition("consul-service-name", PropertyTypeConverter.STRING);
 	
