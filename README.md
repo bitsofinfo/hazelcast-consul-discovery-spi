@@ -27,6 +27,8 @@ See "releases" below for important compatibility details with different version 
 
 This is release candidate code, tested against Hazelcast 3.6-EA+ through 3.9.x and 4.x stable releases, as well as Consul 0.7.x up to 1.0.x.
 
+**IMPORTANT: TAG: 2.0-RC1-20210205**: All tags prior to this might not end up in maven central. However this tag is a re-publish of 2.0-RC1 to be made available in Maven Central due to the sunset of Bintray/JCenter in 2021. 
+
 ## <a id="releases"></a>Releases
 
 
@@ -40,6 +42,8 @@ This is release candidate code, tested against Hazelcast 3.6-EA+ through 3.9.x a
 ### Release history
 
 * MASTER - in progress, this README refers to what is in the master tag. Switch to relevant RELEASE tag above to see that versions README
+
+* **2.0-RC1-20210205**: Same as 2.0-RC1 but made compliant for Maven Central due to JCenter/Bintray closure. 
 
 * [2.0-RC1](https://github.com/bitsofinfo/hazelcast-consul-discovery-spi/releases/tag/2.0-RC1): PR #33 #34 Compat updates for Hazelcast 4.x thanks @amrsamii. **REQUIRES HAZELCAST 4.x+, will not work with Hazelcast <= 3.x**
 
@@ -75,11 +79,11 @@ To use this discovery strategy in your Maven or Gradle project use the dependenc
 
 ```
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
-	compile 'org.bitsofinfo:hazelcast-consul-discovery-spi:1.0-RC9'
+	compile 'org.bitsofinfo:hazelcast-consul-discovery-spi:2.0-RC1-20210205'
 
     // include your preferred javax.ws.rs-api implementation
     // (for the OrbitzWorldwide/consul-client dependency)
@@ -96,7 +100,7 @@ dependencies {
     <dependency>
         <groupId>org.bitsofinfo</groupId>
         <artifactId>hazelcast-consul-discovery-spi</artifactId>
-        <version>1.0-RC9</version>
+        <version>2.0-RC1-20210205</version>
     </dependency>
 
     <!-- include your preferred javax.ws.rs-api
@@ -104,17 +108,6 @@ dependencies {
          implementation - see gradle example above
     -->
 </dependencies>
-
-<repositories>
-    <repository>
-        <snapshots>
-            <enabled>false</enabled>
-        </snapshots>
-        <id>central</id>
-        <name>bintray</name>
-        <url>http://jcenter.bintray.com</url>
-    </repository>
-</repositories>
 ```
 
 ## <a id="features"></a>Features
