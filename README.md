@@ -25,9 +25,13 @@ This is an easy to configure plug-and-play Hazlecast DiscoveryStrategy that will
 
 This is release candidate code, tested against Hazelcast 3.6-EA+ through 3.9.x stable releases, as well as Consul 0.7.x up to 1.0.x.
 
+**IMPORTANT: TAG: 1.0-RC9-20210205**: All tags prior to this might not end up in maven central. However this tag is a re-publish of 1.0-RC9 to be made available in Maven Central due to the sunset of Bintray/JCenter in 2021
+
 ## <a id="releases"></a>Releases
 
 * MASTER - in progress, this README refers to what is in the master tag. Switch to relevant RELEASE tag above to see that versions README
+
+* **1.0-RC9-20210205**: Same as 1.0-RC9 but made compliant for Maven Central due to JCenter/Bintray closure. Also explicity defined hazelcast dependency 3.10.4
 
 * [1.0-RC9](https://github.com/bitsofinfo/hazelcast-consul-discovery-spi/releases/tag/1.0-RC9): PR #28 #29 (consul health script fixes) for #27
 
@@ -61,7 +65,7 @@ To use this discovery strategy in your Maven or Gradle project use the dependenc
 
 ```
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
@@ -90,17 +94,6 @@ dependencies {
          implementation - see gradle example above
     -->
 </dependencies>
-
-<repositories>
-    <repository>
-        <snapshots>
-            <enabled>false</enabled>
-        </snapshots>
-        <id>central</id>
-        <name>bintray</name>
-        <url>http://jcenter.bintray.com</url>
-    </repository>
-</repositories>
 ```
 
 ## <a id="features"></a>Features
