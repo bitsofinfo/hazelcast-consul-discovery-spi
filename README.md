@@ -29,6 +29,8 @@ This is release candidate code, tested against Hazelcast 3.6-EA+ through 3.9.x a
 
 **IMPORTANT: TAG: 2.0-RC1-20210205**: All tags prior to this might not end up in maven central. However this tag is a re-publish of 2.0-RC1 to be made available in Maven Central due to the sunset of Bintray/JCenter in 2021. 
 
+**IMPORTANT: TAG: 1.0-RC9-20210205**: All tags prior to this might not end up in maven central. However this tag is a re-publish of 1.0-RC9 to be made available in Maven Central due to the sunset of Bintray/JCenter in 2021
+
 ## <a id="releases"></a>Releases
 
 
@@ -46,6 +48,8 @@ This is release candidate code, tested against Hazelcast 3.6-EA+ through 3.9.x a
 * **2.0-RC1-20210205**: Same as 2.0-RC1 but made compliant for Maven Central due to JCenter/Bintray closure. 
 
 * [2.0-RC1](https://github.com/bitsofinfo/hazelcast-consul-discovery-spi/releases/tag/2.0-RC1): PR #33 #34 Compat updates for Hazelcast 4.x thanks @amrsamii. **REQUIRES HAZELCAST 4.x+, will not work with Hazelcast <= 3.x**
+
+* **1.0-RC9-20210205**: Same as 1.0-RC9 but made compliant for Maven Central due to JCenter/Bintray closure. Also explicity defined hazelcast dependency 3.10.4
 
 * [1.0-RC9](https://github.com/bitsofinfo/hazelcast-consul-discovery-spi/releases/tag/1.0-RC9): PR #28 #29 (consul health script fixes) for #27
 
