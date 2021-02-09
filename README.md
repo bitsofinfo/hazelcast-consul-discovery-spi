@@ -27,9 +27,7 @@ See "releases" below for important compatibility details with different version 
 
 This is release candidate code, tested against Hazelcast 3.6-EA+ through 3.9.x and 4.x stable releases, as well as Consul 0.7.x up to 1.0.x.
 
-**IMPORTANT: TAG: 2.0-RC1-20210205**: All tags prior to this might not end up in maven central. However this tag is a re-publish of 2.0-RC1 to be made available in Maven Central due to the sunset of Bintray/JCenter in 2021. 
-
-**IMPORTANT: TAG: 1.0-RC9-20210205**: All tags prior to this might not end up in maven central. However this tag is a re-publish of 1.0-RC9 to be made available in Maven Central due to the sunset of Bintray/JCenter in 2021
+**IMPORTANT:**: Do not rely on JCenter/Bintray anymore! Update your gradle/maven dependencies to use Maven Central: https://search.maven.org/search?q=g:org.bitsofinfo
 
 ## <a id="releases"></a>Releases
 
