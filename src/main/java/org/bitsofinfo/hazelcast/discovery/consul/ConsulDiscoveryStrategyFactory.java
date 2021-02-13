@@ -19,6 +19,7 @@ public class ConsulDiscoveryStrategyFactory implements DiscoveryStrategyFactory 
 						ConsulDiscoveryConfiguration.CONSUL_SERVICE_NAME,
 						ConsulDiscoveryConfiguration.CONSUL_HEALTHY_ONLY,
 						ConsulDiscoveryConfiguration.CONSUL_SERVICE_TAGS,
+						ConsulDiscoveryConfiguration.CONSUL_SERVICE_FILTER_TAGS,
 						ConsulDiscoveryConfiguration.CONSUL_REGISTRATOR,
 						ConsulDiscoveryConfiguration.CONSUL_REGISTRATOR_CONFIG,
 						ConsulDiscoveryConfiguration.CONSUL_DISCOVERY_DELAY_MS,

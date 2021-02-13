@@ -51,10 +51,16 @@
                       
                       <!-- 
                            Comma separated list of Consul service tags that will be used when registering services 
-                           in Consul who are part of the same cluster and will be discovered and treated as peer
-                           members of the hazelcast cluster.      
+                           in Consul.      
                       -->
                       <property name="consul-service-tags">hazelcast,test1</property>
+                      
+                      <!-- 
+                           Comma separated list of Consul service tags that will be used when discovering services 
+                           in Consul who are part of the same cluster and will be treated as peer members of the
+                           hazelcast cluster.
+                      -->
+                      <property name="consul-service-filter-tags">hazelcast,test1</property>
                       
                                             
                       <!--  
