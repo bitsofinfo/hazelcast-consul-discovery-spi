@@ -1,6 +1,7 @@
 package org.bitsofinfo.hazelcast.discovery.consul;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,8 @@ import com.orbitz.consul.HealthClient;
 import com.orbitz.consul.model.ConsulResponse;
 import com.orbitz.consul.model.catalog.CatalogService;
 import com.orbitz.consul.model.health.ServiceHealth;
+import com.orbitz.consul.option.ImmutableQueryOptions;
+import com.orbitz.consul.option.QueryOptions;
 
 
 /**
@@ -38,6 +41,9 @@ public class ConsulDiscoveryStrategy extends AbstractDiscoveryStrategy implement
 	// service name we will register under, and tags to apply
 	private String[] consulServiceTags = null;
 	private String consulServiceName = null;
+	
+	// tags to filter by during discovery
+	private String[] consulServiceFilterTags = null;
 	
 	// if we only discover healthy nodes...
 	private boolean consulHealthyOnly = true;
@@ -71,6 +77,7 @@ public class ConsulDiscoveryStrategy extends AbstractDiscoveryStrategy implement
 		this.consulHost = getOrDefault("consul-host",  ConsulDiscoveryConfiguration.CONSUL_HOST, "localhost");
 		this.consulPort = getOrDefault("consul-port",  ConsulDiscoveryConfiguration.CONSUL_PORT, 8500);
 		this.consulServiceTags = getOrDefault("consul-service-tags",  ConsulDiscoveryConfiguration.CONSUL_SERVICE_TAGS, "").split(",");		
+		this.consulServiceFilterTags = getOrDefault("consul-service-filter-tags",  ConsulDiscoveryConfiguration.CONSUL_SERVICE_FILTER_TAGS, "").split(",");
 		this.consulServiceName = getOrDefault("consul-service-name",  ConsulDiscoveryConfiguration.CONSUL_SERVICE_NAME, "");		
 		this.consulHealthyOnly = getOrDefault("consul-healthy-only",  ConsulDiscoveryConfiguration.CONSUL_HEALTHY_ONLY, true);		
 		long discoveryDelayMS = getOrDefault("consul-discovery-delay-ms",  ConsulDiscoveryConfiguration.CONSUL_DISCOVERY_DELAY_MS, 30000);		
@@ -174,6 +181,17 @@ public class ConsulDiscoveryStrategy extends AbstractDiscoveryStrategy implement
 									
 	}                              
 
+	private static QueryOptions queryOptions(String token, String[] tags) {
+		ImmutableQueryOptions.Builder optionBuilder = ImmutableQueryOptions.builder();
+		if(token != null && !token.trim().isEmpty()){
+			optionBuilder.token(token);
+		}
+		if(tags != null && tags.length > 0 && !tags[0].trim().isEmpty()) {
+			optionBuilder.addAllTag(Arrays.asList(tags));
+		}
+		return optionBuilder.build();
+	}
+
 	@Override
 	public Iterable<DiscoveryNode> discoverNodes() {
 		
@@ -183,7 +201,7 @@ public class ConsulDiscoveryStrategy extends AbstractDiscoveryStrategy implement
 			// discover healthy nodes only? (and its NOT the first invocation...)
 			if (this.consulHealthyOnly && discoverNodesInvoked) {
 				
-				List<ServiceHealth> nodes = consulHealthClient.getHealthyServiceInstances(consulServiceName, ConsulUtility.getAclToken(this.consulAclToken)).getResponse();
+				List<ServiceHealth> nodes = consulHealthClient.getHealthyServiceInstances(consulServiceName, queryOptions(this.consulAclToken, this.consulServiceFilterTags)).getResponse();
 				
 				for (ServiceHealth node : nodes) {
 					toReturn.add(new SimpleDiscoveryNode(
@@ -194,7 +212,7 @@ public class ConsulDiscoveryStrategy extends AbstractDiscoveryStrategy implement
 			// discover all services, regardless of health or this is the first invocation
 			} else {
 				
-				ConsulResponse<List<CatalogService>> response = this.consulCatalogClient.getService(consulServiceName, ConsulUtility.getAclToken(this.consulAclToken));
+				ConsulResponse<List<CatalogService>> response = this.consulCatalogClient.getService(consulServiceName, queryOptions(this.consulAclToken, this.consulServiceFilterTags));
 				
 				for (CatalogService service : response.getResponse()) {
 					
